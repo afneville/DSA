@@ -1,0 +1,9 @@
+#+TITLE: Data Structures & Algorithms
+
+Implementations of some common data structures in C.
+
+*Data Structures:*
+
+- Binary Tree
+- Linked List
+- Associative Array/Map
