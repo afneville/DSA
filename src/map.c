@@ -1,25 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-
-#define SIZE 10
-// these are the structures used in the hashmap
-
-typedef struct pair {
-
-    char key;
-    int value;
-
-} pair;
-
-
-typedef struct map_T {
-
-    pair * table[SIZE];
-
-} map;
-
-// behaviours associated with the hashmap
+#include "../includes/map.h"
 
 
 int hash(char key){
@@ -30,7 +12,7 @@ int hash(char key){
 
 }
 
-void insert(map * map_p, char key, int value) {
+void insert_map(map * map_p, char key, int value) {
 
     int index = hash(key);
     int counter = 0;
@@ -59,7 +41,7 @@ void insert(map * map_p, char key, int value) {
 
 }
 
-int search(map * map_p, char key) {
+int search_map(map * map_p, char key) {
 
     int index = hash(key);
     int counter = 0;
@@ -95,26 +77,5 @@ map * create_map(){
 
     }
     return new_map;
-
-}
-
-int main(int argc, char *argv[]){
-
-    map * map1_p = create_map();
-
-    insert(map1_p, 'a', 1);
-    insert(map1_p, 'j', 2);
-    insert(map1_p, 'b', 3);
-    insert(map1_p, 'f', 1);
-    insert(map1_p, 'd', 5);
-    insert(map1_p, 'i', 2);
-    insert(map1_p, 'c', 2);
-    insert(map1_p, 'h', 3);
-    insert(map1_p, 'e', 4);
-    insert(map1_p, 'g', 8);
-
-    printf("\n%c => %d\n", 'a', search(map1_p, 'a'));
-    printf("\n%c => %d\n", 'e', search(map1_p, 'e'));
-    /* printf("\n%c => %d\n", 'z', search(map1_p, 'z')); */
 
 }
