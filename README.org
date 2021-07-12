@@ -15,5 +15,4 @@ Implementations of some common data structures in C.
 cd src
 make
 ./a.out
-
 #+end_src
