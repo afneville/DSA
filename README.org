@@ -7,3 +7,13 @@ Implementations of some common data structures in C.
 - Binary Tree
 - Linked List
 - Associative Array/Map
+
+*Run:*
+
+#+begin_src
+
+cd src
+make
+./a.out
+
+#+end_src
