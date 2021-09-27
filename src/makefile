@@ -4,8 +4,8 @@ LIBS=
 
 IDIR=../includes
 ODIR=./obj
-_HEADS = linked_list.h map.h tree.h
-_OBJ = main.o linked_list.o map.o tree.o
+_HEADS = linked_list.h map.h tree.h queue.h
+_OBJ = main.o linked_list.o map.o tree.o queue.o
 
 HEADS = $(patsubst %,$(IDIR)/%,$(_HEADS))
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
