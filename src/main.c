@@ -77,6 +77,7 @@ int main(int argc, char *argv[]){
     printf("%d\n", deQueue(queue_p)); // 4
     printf("%d\n", deQueue(queue_p)); // 4
     printf("%d\n", deQueue(queue_p)); // 4
+    destroy_queue(queue_p);
 
     printf("\n");
     stack * stack_p = new_stack(5);
@@ -96,6 +97,7 @@ int main(int argc, char *argv[]){
     printf("%d\n", pop(stack_p));
     printf("%d\n", pop(stack_p));
     printf("%d\n", pop(stack_p));
+    destroy_stack(stack_p);
 
     return 0;
 

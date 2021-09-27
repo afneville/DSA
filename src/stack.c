@@ -60,3 +60,8 @@ int stack_isFull(stack * stack_p) {
         return 0;
     }
 };
+
+void destroy_stack(stack * stack_p) {
+    free(stack_p->entries);
+    free(stack_p);
+}

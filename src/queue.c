@@ -52,3 +52,8 @@ int queue_isFull(queue * queue_p) {
     }
 };
 
+void destroy_queue(queue * queue_p) {
+
+    free(queue_p->entries);
+    free(queue_p);
+}

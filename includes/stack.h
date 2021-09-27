@@ -17,4 +17,6 @@ int peek(stack * stack_p);
 int stack_isEmpty(stack * stack_p);
 int stack_isFull(stack * stack_p);
 
+void destroy_stack(stack * stack_p);
+
 #endif
