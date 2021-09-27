@@ -4,6 +4,7 @@
 #include "../includes/map.h"
 #include "../includes/tree.h"
 #include "../includes/queue.h"
+#include "../includes/stack.h"
 
 int main(int argc, char *argv[]){
 
@@ -54,12 +55,12 @@ int main(int argc, char *argv[]){
     // queue data structure
     printf("\n");
     queue * queue_p = new_queue(5);
-    printf("%d\n", isEmpty(queue_p)); // 1
-    printf("%d\n", isFull(queue_p));  // 0
+    printf("%d\n", queue_isEmpty(queue_p)); // 1
+    printf("%d\n", queue_isFull(queue_p));  // 0
 
     enQueue(queue_p, 1);
-    printf("%d\n", isEmpty(queue_p)); // 0
-    printf("%d\n", isFull(queue_p));  // 0
+    printf("%d\n", queue_isEmpty(queue_p)); // 0
+    printf("%d\n", queue_isFull(queue_p));  // 0
     printf("%d\n", deQueue(queue_p)); // 4
 
     printf("\n");
@@ -76,6 +77,25 @@ int main(int argc, char *argv[]){
     printf("%d\n", deQueue(queue_p)); // 4
     printf("%d\n", deQueue(queue_p)); // 4
     printf("%d\n", deQueue(queue_p)); // 4
+
+    printf("\n");
+    stack * stack_p = new_stack(5);
+    printf("%d\n", stack_isEmpty(stack_p));
+    printf("%d\n", stack_isFull(stack_p));
+    push(stack_p, 4);
+    printf("%d\n", peek(stack_p));
+    printf("%d\n", pop(stack_p));
+    push(stack_p, 1);
+    push(stack_p, 2);
+    push(stack_p, 3);
+    push(stack_p, 4);
+    push(stack_p, 5);
+    push(stack_p, 6);
+    printf("%d\n", pop(stack_p));
+    printf("%d\n", pop(stack_p));
+    printf("%d\n", pop(stack_p));
+    printf("%d\n", pop(stack_p));
+    printf("%d\n", pop(stack_p));
 
     return 0;
 

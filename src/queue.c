@@ -16,7 +16,7 @@ queue * new_queue(int size) {
 };
 
 int enQueue(queue * queue_p, int value){
-    if (isFull(queue_p) == 1) {
+    if (queue_isFull(queue_p) == 1) {
         return -1;
     } else {
         queue_p->entries[queue_p->end] = value;
@@ -26,7 +26,7 @@ int enQueue(queue * queue_p, int value){
 };
 
 int deQueue(queue * queue_p) {
-    if (isEmpty(queue_p) == 1) {
+    if (queue_isEmpty(queue_p) == 1) {
         return -1;
     } else {
         int value = queue_p->entries[queue_p->start];
@@ -36,7 +36,7 @@ int deQueue(queue * queue_p) {
     }
 };
 
-int isEmpty(queue * queue_p){
+int queue_isEmpty(queue * queue_p){
     if (queue_p->entries[queue_p->start] == 0) {
         return 1;
     } else {
@@ -44,7 +44,7 @@ int isEmpty(queue * queue_p){
     }
 };
 
-int isFull(queue * queue_p) {
+int queue_isFull(queue * queue_p) {
     if (queue_p->end == queue_p->start && queue_p->entries[queue_p->start] != 0) {
         return 1;
     } else {

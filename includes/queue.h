@@ -12,8 +12,8 @@ typedef struct queue_T {
 int enQueue(queue * queue_p, int value);
 int deQueue(queue * queue_p);
 
-int isEmpty(queue * queue_p);
-int isFull(queue * queue_p);
+int queue_isEmpty(queue * queue_p);
+int queue_isFull(queue * queue_p);
 
 queue * new_queue(int size);
 
