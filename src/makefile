@@ -2,10 +2,10 @@ CC=gcc
 CFLAGS=
 LIBS=
 
-IDIR=../includes
+IDIR=./includes
 ODIR=./obj
-_HEADS = linked_list.h map.h tree.h queue.h stack.h
-_OBJ = main.o linked_list.o map.o tree.o queue.o stack.o
+_HEADS = 
+_OBJ = object.o main.o
 
 HEADS = $(patsubst %,$(IDIR)/%,$(_HEADS))
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
