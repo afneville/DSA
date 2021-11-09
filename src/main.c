@@ -13,5 +13,7 @@ int main() {
     printf("%d\n", object_one->data.integer_data);
     printf("%c\n", object_two->data.string_data[0]);
     printf("%s\n", object_two->data.string_data);
+
     return 0;
+
 }

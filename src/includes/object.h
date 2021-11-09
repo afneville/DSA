@@ -1,4 +1,5 @@
 #ifndef object_H
+#define object_H
     
 typedef union object_data_U {
     double decimal_data;
