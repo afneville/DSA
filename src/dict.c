@@ -15,3 +15,19 @@ void destroy_ds_node(ds_node * old_node) {
     destroy_object(old_node->record);
     free(old_node);
 }
+
+dict * create_dictionary(){
+    dict * new_dict = (dict *) malloc(sizeof(ds_node) * INITIAL_BUCKET_COUNT);
+    new_dict->num_buckets = 8;
+    return new_dict;
+}
+
+void resize_dictionary(dict * existing_dict) {
+
+    return;
+}
+
+void destroy_dictionary(dict * old_dict){
+    free(old_dict->buckets);
+    free(old_dict);
+}
