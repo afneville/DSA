@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include "./includes/object.h"
 
@@ -26,6 +27,25 @@ object * new_object(object_type type, void * ptr) {
     return new_object;
 }
 
-void destroy_object(object * prt){
-    free(prt);
+void represent(object * ptr) {
+
+    switch ( ptr->type ) {
+        case Integer:
+            printf("%d\n", ptr->data.integer_data);
+            break;
+        case Decimal:
+            printf("%f\n", ptr->data.decimal_data);
+            printf("");
+            break;
+        case String:
+            printf("%s\n", ptr->data.string_data);
+            break;
+        default:
+            break;
+
+    }
+}
+
+void destroy_object(object * ptr){
+    free(ptr);
 };

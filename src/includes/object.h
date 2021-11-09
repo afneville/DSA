@@ -20,6 +20,7 @@ typedef struct object_T {
 
 
 object * new_object(object_type type, void * ptr);
-void destroy_object(object * prt);
+void represent(object * ptr);
+void destroy_object(object * ptr);
 
 #endif // object_H

@@ -5,7 +5,7 @@ LIBS=
 IDIR=./includes
 ODIR=./obj
 _HEADS = 
-_OBJ = object.o main.o
+_OBJ = main.o object.o llist.o dict.o
 
 HEADS = $(patsubst %,$(IDIR)/%,$(_HEADS))
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))

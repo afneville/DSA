@@ -9,7 +9,12 @@ typedef struct ds_node_T {
     int hash;
 } ds_node;
 
-ds_node * create_ds_node(object * new_data);
+typedef struct dict_T {
+    int num_buckets;
+    ds_node * buckets;
+} dict;
+
+ds_node * create_ds_node(object * new_data, char * key);
 void destroy_ds_node(ds_node * old_node);
 
 #endif // dict_H

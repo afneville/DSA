@@ -4,13 +4,11 @@
 #include "./object.h"
 #include "./dict.h"
 
-typedef struct llstart_T {
-   ds_node * start; 
-   int elements;
-} llstart;
+ds_node * traverse(ds_node * current, ds_node * tmp, ds_node * (* callback)(ds_node * current_element, ds_node * tmp));
 
-llstart create_llstart();
-void append_list(object * new_data);
-void traverse(ds_node * current, ds_node * tmp, void (* callback)(object * current_element));
+// callbacks
+ds_node * append(ds_node * current, ds_node * tmp);
+ds_node * print(ds_node * current, ds_node * tmp);
+ds_node * search(ds_node * current, ds_node * tmp);
 
 #endif // llist_H
