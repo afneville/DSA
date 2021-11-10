@@ -8,20 +8,21 @@ typedef struct ds_node_T {
     object * record;
     struct ds_node_T * next;
     char * key;
-    int hash;
+    unsigned long hash;
 } ds_node;
 
 typedef struct dict_T {
     int num_buckets;
-    ds_node * buckets;
+    int num_entries;
+    ds_node ** buckets;
 } dict;
 
 ds_node * create_ds_node(object * new_data, char * key);
 void destroy_ds_node(ds_node * old_node);
 dict * create_dictionary();
-int key_in_dictionary(char * key);
-ds_node * retrieve_data(char * key);
-void insert_dictionary(char * key, ds_node * insert_data);
+
+ds_node * search_dictionary(dict * existing_dict, char * key);
+void insert_dictionary(dict * existing_dict, char * key, object * insert_data);
 void resize_dictionary(dict * existing_dict);
 void destroy_dictionary(dict * old_dict);
 
