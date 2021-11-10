@@ -1,17 +1,8 @@
 #+TITLE: Data Structures & Algorithms
 
-Implementations of some common data structures in C.
-
-*Data Structures:*
-
-- Binary Tree
-- Linked List
-- Associative Array/Map
-
-*Run:*
+Implementation of basic data structure concepts for A-level Computer Science.
 
 #+begin_src
-
 cd src
 make
 ./a.out
