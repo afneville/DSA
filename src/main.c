@@ -8,12 +8,6 @@
 int main() {
 
     // create "objects"
-    int a = 5;
-    float b = 14.3;
-    char c[6] = "hello\0";
-    object * object_one = new_object(Integer, &a);
-    object * object_two = new_object(Decimal, &b);
-    object * object_three = new_object(String, &c);
 
 /*     printf("%d\n", object_one->data.integer_data); */
 /*     printf("%f\n", object_two->data.decimal_data); */
@@ -29,12 +23,37 @@ int main() {
 /*  */
 /*     traverse(node_one, NULL, print); */
 
+    char keys[10][5] = {
+        "key0",
+        "key1",
+        "key2",
+        "key3",
+        "key4",
+        "key5",
+        "key6",
+        "key7",
+        "key8",
+        "key9"
+    };
+
     dict * test_dict = create_dictionary();
-    insert_dictionary(test_dict, c, object_one);
-    printf("inserted\n");
-    ds_node * retrieved = search_dictionary(test_dict, c);
-    if (retrieved){
-        represent(retrieved->record);
+
+    // insert data
+    for (int i = 0; i < 10; i++) {
+        int j = i;
+        object * insert_data = new_object(Integer, &j);
+        int rc = insert_dictionary(test_dict, keys[i], insert_data);
+        if (rc) {
+            printf("inserted\n");
+        } else {
+            printf("not inserted\n");
+        }
+    }
+    for (int i = 0; i < 10; i++) {
+        ds_node * retrieved = search_dictionary(test_dict, keys[i]);
+        if (retrieved){
+            represent(retrieved->record);
+        }
     }
 
     return 0;

@@ -66,7 +66,7 @@ ds_node * search_dictionary(dict * existing_dict, char * key) {
 
 }
 
-void insert_dictionary(dict * existing_dict, char * key, object * insert_data) {
+int insert_dictionary(dict * existing_dict, char * key, object * insert_data) {
 
     ds_node * insert_node = create_ds_node(insert_data, key);
     insert_node->hash = hash(insert_node->key);
@@ -74,10 +74,16 @@ void insert_dictionary(dict * existing_dict, char * key, object * insert_data) {
 
     for (int bucket = 0; bucket < existing_dict->num_buckets; bucket ++){
         int index = (insert_node->hash + bucket) % existing_dict->num_buckets;
-        if (!existing_dict->buckets[index]) {
+        if (existing_dict->buckets[index]) {
+            if (strcmp(existing_dict->buckets[index]->key, key) == 0)
+                return -1;
+
+        } else if (!existing_dict->buckets[index]) {
             printf("inserting in position %d\n", index);
             existing_dict->buckets[index] = insert_node;
-            return;
+            existing_dict->num_entries++;
+            return 0;
         }
     }
+    return -1;
 }

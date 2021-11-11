@@ -22,7 +22,7 @@ void destroy_ds_node(ds_node * old_node);
 dict * create_dictionary();
 
 ds_node * search_dictionary(dict * existing_dict, char * key);
-void insert_dictionary(dict * existing_dict, char * key, object * insert_data);
+int insert_dictionary(dict * existing_dict, char * key, object * insert_data);
 void resize_dictionary(dict * existing_dict);
 void destroy_dictionary(dict * old_dict);
 
