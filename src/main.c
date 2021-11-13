@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "includes/object.h"
-#include "includes/llist.h"
-#include "includes/dict.h"
+#include "../includes/object.h"
+#include "../includes/llist.h"
+#include "../includes/dict.h"
 
 
 int main() {

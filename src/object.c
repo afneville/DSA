@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "./includes/object.h"
+#include "../includes/object.h"
 
 object * new_object(object_type type, void * ptr) {
 

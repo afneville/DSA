@@ -2,7 +2,7 @@ CC=gcc
 CFLAGS=
 LIBS=
 
-IDIR=./includes
+IDIR=../includes
 ODIR=./obj
 _HEADS = 
 _OBJ = main.o object.o llist.o dict.o

@@ -1,6 +1,6 @@
 #include <string.h>
 #include <stdlib.h>
-#include "./includes/llist.h"
+#include "../includes/llist.h"
 
 ds_node * traverse(ds_node * current, ds_node * tmp, ds_node * (* callback)(ds_node * current_element, ds_node * tmp)) {
 
