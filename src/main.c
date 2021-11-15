@@ -28,7 +28,7 @@ int main() {
     // insert data
     for (int i = 0; i < 10; i++) {
         int j = i;
-        object * insert_data = new_object(Integer, &j);
+        object * insert_data = create_object(Integer, &j);
         int rc = insert_dictionary(test_dict, keys[i], insert_data);
     }
 
@@ -36,6 +36,8 @@ int main() {
         ds_node * retrieved = search_dictionary(test_dict, keys[i]);
         if (retrieved){
             represent(retrieved->record);
+        } else {
+            printf("key not found\n");
         }
     }
 

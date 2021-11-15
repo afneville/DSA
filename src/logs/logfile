@@ -1,21 +1,13 @@
-hash: 6385400190
-inserting in position 6
-hash: 6385400191
-inserting in position 7
-hash: 6385400192
-inserting in position 0
-hash: 6385400193
-inserting in position 1
-hash: 6385400194
-inserting in position 2
-hash: 6385400195
-inserting in position 3
-hash: 6385400196
-inserting in position 4
-hash: 6385400197
-inserting in position 5
-hash: 6385400198
-hash: 6385400199
+HASH: 6385400190 POSITION: 6
+HASH: 6385400191 POSITION: 7
+HASH: 6385400192 POSITION: 0
+HASH: 6385400193 POSITION: 1
+HASH: 6385400194 POSITION: 2
+HASH: 6385400195 POSITION: 3
+HASH: 6385400196 POSITION: 4
+HASH: 6385400197 POSITION: 5
+HASH: 6385400198 POSITION: DICTIONARY FULL
+HASH: 6385400199 POSITION: DICTIONARY FULL
 hash to check 6385400190
 6
 stored key: key0, current key: key0

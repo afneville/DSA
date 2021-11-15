@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "./includes/object.h"
 
-object * new_object(object_type type, void * ptr) {
+object * create_object(object_type type, void * ptr) {
 
     object * new_object = (object *) malloc(sizeof(object));
 

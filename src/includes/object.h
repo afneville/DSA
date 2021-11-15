@@ -28,7 +28,7 @@ typedef struct ds_node_T {
     struct ds_node_T * right;
 } ds_node;
 
-object * new_object(object_type type, void * ptr);
+object * create_object(object_type type, void * ptr);
 void represent(object * ptr);
 void destroy_object(object * ptr);
 

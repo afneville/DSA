@@ -71,20 +71,23 @@ int insert_dictionary(dict * existing_dict, char * key, object * insert_data) {
 
     ds_node * insert_node = create_ds_node(insert_data, key);
     insert_node->hash = hash(insert_node->key);
-    fprintf(fp, "hash: %lu\n", insert_node->hash);
+    fprintf(fp, "HASH: %lu ", insert_node->hash);
 
     for (int bucket = 0; bucket < existing_dict->num_buckets; bucket ++){
         int index = (insert_node->hash + bucket) % existing_dict->num_buckets;
         if (existing_dict->buckets[index]) {
-            if (strcmp(existing_dict->buckets[index]->key, key) == 0)
+            if (strcmp(existing_dict->buckets[index]->key, key) == 0) {
+                fprintf(fp, "POSITION: KEY EXISTS\n");
                 return -1;
-
+            }
         } else if (!existing_dict->buckets[index]) {
-            fprintf(fp, "inserting in position %d\n", index);
+            fprintf(fp, "POSITION: %d\n", index);
             existing_dict->buckets[index] = insert_node;
             existing_dict->num_entries++;
             return 0;
         }
     }
+    fprintf(fp, "POSITION: DICTIONARY FULL\n");
     return -1;
+
 }
