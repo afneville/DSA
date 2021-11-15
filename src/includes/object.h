@@ -18,9 +18,21 @@ typedef struct object_T {
     object_type type;
 } object;
 
+typedef struct ds_node_T {
+    object * record;
+    struct ds_node_T * next;
+    char * key;
+    unsigned long hash;
+    int buried_nodes;
+    struct ds_node_T * left;
+    struct ds_node_T * right;
+} ds_node;
 
 object * new_object(object_type type, void * ptr);
 void represent(object * ptr);
 void destroy_object(object * ptr);
+
+ds_node * create_ds_node(object * new_data, char * key);
+void destroy_ds_node(ds_node * old_node);
 
 #endif // object_H

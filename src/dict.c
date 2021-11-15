@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "stdlib.h"
-#include "../includes/dict.h"
+#include "./includes/dict.h"
 
 ds_node * create_ds_node(object * new_data, char * key) {
 

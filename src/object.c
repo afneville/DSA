@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../includes/object.h"
+#include "./includes/object.h"
 
 object * new_object(object_type type, void * ptr) {
 
@@ -49,3 +49,5 @@ void represent(object * ptr) {
 void destroy_object(object * ptr){
     free(ptr);
 };
+
+

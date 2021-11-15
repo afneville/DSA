@@ -4,12 +4,6 @@
 
 #define INITIAL_BUCKET_COUNT 8
 
-typedef struct ds_node_T {
-    object * record;
-    struct ds_node_T * next;
-    char * key;
-    unsigned long hash;
-} ds_node;
 
 typedef struct dict_T {
     int num_buckets;
@@ -17,8 +11,6 @@ typedef struct dict_T {
     ds_node ** buckets;
 } dict;
 
-ds_node * create_ds_node(object * new_data, char * key);
-void destroy_ds_node(ds_node * old_node);
 dict * create_dictionary();
 
 ds_node * search_dictionary(dict * existing_dict, char * key);

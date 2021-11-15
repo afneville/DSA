@@ -2,9 +2,9 @@ CC=gcc
 CFLAGS=
 LIBS=
 
-IDIR=../includes
+IDIR=./includes
 ODIR=./obj
-_HEADS = 
+_HEADS = object.h llist.h dict.h
 _OBJ = main.o object.o llist.o dict.o
 
 HEADS = $(patsubst %,$(IDIR)/%,$(_HEADS))
@@ -15,6 +15,7 @@ OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 # '^' is the right side of the ':'
 
 $(ODIR)/%.o: %.c $(IDIR)
+	mkdir -p obj
 	$(CC) -c -o $@ $<
 
 a.out: $(OBJ)
@@ -22,4 +23,4 @@ a.out: $(OBJ)
 
 .PHONY: clean
 clean:
-	rm -rf $(ODIR)/*.o
+	rm -rf $(ODIR)/*.o a.out

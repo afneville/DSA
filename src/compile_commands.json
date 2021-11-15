@@ -1,0 +1,50 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-o",
+      "obj/main.o",
+      "main.c"
+    ],
+    "directory": "/home/alex/repos/c_data_structures/src",
+    "file": "/home/alex/repos/c_data_structures/src/main.c",
+    "output": "/home/alex/repos/c_data_structures/src/obj/main.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-o",
+      "obj/object.o",
+      "object.c"
+    ],
+    "directory": "/home/alex/repos/c_data_structures/src",
+    "file": "/home/alex/repos/c_data_structures/src/object.c",
+    "output": "/home/alex/repos/c_data_structures/src/obj/object.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-o",
+      "obj/llist.o",
+      "llist.c"
+    ],
+    "directory": "/home/alex/repos/c_data_structures/src",
+    "file": "/home/alex/repos/c_data_structures/src/llist.c",
+    "output": "/home/alex/repos/c_data_structures/src/obj/llist.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-o",
+      "obj/dict.o",
+      "dict.c"
+    ],
+    "directory": "/home/alex/repos/c_data_structures/src",
+    "file": "/home/alex/repos/c_data_structures/src/dict.c",
+    "output": "/home/alex/repos/c_data_structures/src/obj/dict.o"
+  }
+]
