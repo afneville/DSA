@@ -20,16 +20,16 @@ typedef struct object_T {
 
 typedef struct ds_node_T {
     object * record;
-    struct ds_node_T * next;
+    int buried_nodes;
     char * key;
     unsigned long hash;
-    int buried_nodes;
+    struct ds_node_T * next;
     struct ds_node_T * left;
     struct ds_node_T * right;
 } ds_node;
 
 object * create_object(object_type type, void * ptr);
-void represent(object * ptr);
+void repr(object * ptr);
 void destroy_object(object * ptr);
 
 ds_node * create_ds_node(object * new_data, char * key);

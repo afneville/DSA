@@ -4,15 +4,6 @@
 #include "./includes/dict.h"
 #include "./includes/logger.h"
 
-ds_node * create_ds_node(object * new_data, char * key) {
-
-    ds_node * new_node = (ds_node *) malloc(sizeof(ds_node));
-    new_node->record = new_data;
-    new_node->next = NULL;
-    new_node->key = key;
-    return new_node;
-
-}
 
 unsigned long hash(char *str){
     unsigned long hash = 5381;
@@ -22,21 +13,21 @@ unsigned long hash(char *str){
     return hash;
 }
 
-void destroy_ds_node(ds_node * old_node) {
-    destroy_object(old_node->record);
-    free(old_node);
-}
 
-dict * create_dictionary(){
-    dict * new_dict = (dict *) malloc(sizeof(dict));
-    new_dict->buckets = (ds_node **) malloc(sizeof(ds_node *) * INITIAL_BUCKET_COUNT);
-    new_dict->num_buckets = 8;
-    new_dict->num_entries = 0;
-    return new_dict;
-}
+dict * create_dictionary(collision_resolution_method collision_approach,
+        resize_method resize_approach, int size, int primes_array_index) {
 
-void resize_dictionary(dict * existing_dict) {
-    return;
+    dict * self = (dict *) malloc(sizeof(dict));
+
+    self->buckets = (ds_node **) malloc(sizeof(ds_node *) * size);
+    self->primes_array_index = primes_array_index;
+    self->num_buckets = size;
+    self->num_entries = 0;
+    self->collision_approach = collision_approach;
+    self->resize_approach = resize_approach;
+
+    return self;
+
 }
 
 void destroy_dictionary(dict * old_dict){
@@ -44,46 +35,46 @@ void destroy_dictionary(dict * old_dict){
     free(old_dict);
 }
 
-ds_node * search_dictionary(dict * existing_dict, char * key) {
+ds_node * search_dictionary(dict * self, char * key) {
 
     /* ds_node * target = create_ds_node(NULL, key); */
     unsigned long key_hash = hash(key);
-    fprintf(fp, "hash to check %lu\n", key_hash);
+    // fprintf(fp, "DICT SEARCH: ", key_hash);
 
-    for (int bucket = 0; bucket < existing_dict->num_buckets; bucket ++){
-        int index = (key_hash + bucket) % existing_dict->num_buckets;
-        fprintf(fp, "%d\n", index);
-        if (!existing_dict->buckets[index]) {
+    for (int bucket = 0; bucket < self->num_buckets; bucket ++){
+        int index = (key_hash + bucket) % self->num_buckets;
+        // fprintf(fp, "%d\n", index);
+        if (!self->buckets[index]) {
             return NULL;
         } else {
 
-            fprintf(fp, "stored key: %s, current key: %s\n", existing_dict->buckets[index]->key, key);
-            if (strcmp(existing_dict->buckets[index]->key, key) == 0)
-                return existing_dict->buckets[index];
+            // fprintf(fp, "stored key: %s, current key: %s\n", existing_dict->buckets[index]->key, key);
+            if (strcmp(self->buckets[index]->key, key) == 0)
+                return self->buckets[index];
         }
     }
-    fprintf(fp, "checked all buckets\n");
+    // fprintf(fp, "checked all buckets\n");
     return NULL;
 
 }
 
-int insert_dictionary(dict * existing_dict, char * key, object * insert_data) {
+int insert_dictionary(dict * self, char * key, object * insert_data) {
 
     ds_node * insert_node = create_ds_node(insert_data, key);
     insert_node->hash = hash(insert_node->key);
-    fprintf(fp, "HASH: %lu ", insert_node->hash);
+    fprintf(fp, "DICT:HASH:%lu:", insert_node->hash);
 
-    for (int bucket = 0; bucket < existing_dict->num_buckets; bucket ++){
-        int index = (insert_node->hash + bucket) % existing_dict->num_buckets;
-        if (existing_dict->buckets[index]) {
-            if (strcmp(existing_dict->buckets[index]->key, key) == 0) {
+    for (int i = 0; i < self->num_buckets; i++){
+        int index = (insert_node->hash + i) % self->num_buckets;
+        if (self->buckets[index]) {
+            if (strcmp(self->buckets[index]->key, key) == 0) {
                 fprintf(fp, "POSITION: KEY EXISTS\n");
                 return -1;
             }
-        } else if (!existing_dict->buckets[index]) {
+        } else if (!self->buckets[index]) {
             fprintf(fp, "POSITION: %d\n", index);
-            existing_dict->buckets[index] = insert_node;
-            existing_dict->num_entries++;
+            self->buckets[index] = insert_node;
+            self->num_entries++;
             return 0;
         }
     }
@@ -91,3 +82,10 @@ int insert_dictionary(dict * existing_dict, char * key, object * insert_data) {
     return -1;
 
 }
+
+float calc_load_factor(dict * self) {
+    float load_factor = (float) self->num_entries / self->num_buckets;
+    return load_factor;
+}
+
+void resize_dictionary(dict * self);

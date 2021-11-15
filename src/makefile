@@ -1,11 +1,11 @@
 CC=gcc
 CFLAGS=
-LIBS=
+LIBS= -lpthread
 
 IDIR=./includes
 ODIR=./obj
-_HEADS = object.h llist.h dict.h logger.h
-_OBJ = logger.o main.o object.o llist.o dict.o 
+_HEADS = object.h llist.h dict.h logger.h primes.h
+_OBJ = logger.o main.o object.o llist.o dict.o primes.o
 
 HEADS = $(patsubst %,$(IDIR)/%,$(_HEADS))
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))

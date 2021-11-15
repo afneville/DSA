@@ -27,7 +27,7 @@ object * create_object(object_type type, void * ptr) {
     return new_object;
 }
 
-void represent(object * ptr) {
+void repr(object * ptr) {
 
     switch ( ptr->type ) {
         case Integer:
@@ -51,3 +51,17 @@ void destroy_object(object * ptr){
 };
 
 
+ds_node * create_ds_node(object * new_data, char * key) {
+
+    ds_node * new_node = (ds_node *) malloc(sizeof(ds_node));
+    new_node->record = new_data;
+    new_node->next = NULL;
+    new_node->key = key;
+    return new_node;
+
+}
+
+void destroy_ds_node(ds_node * old_node) {
+    destroy_object(old_node->record);
+    free(old_node);
+}

@@ -4,11 +4,13 @@
 #include "./includes/llist.h"
 #include "./includes/dict.h"
 #include "./includes/logger.h"
+#include "./includes/primes.h"
 
 
 int main() {
 
     open_logfile();
+    gen_primes();
 
     char keys[10][5] = {
         "key0",
@@ -23,7 +25,9 @@ int main() {
         "key9"
     };
 
-    dict * test_dict = create_dictionary();
+    printf("%d\n", primes_array[3]);
+
+    dict * test_dict = create_dictionary(OpenAddressing, Prime, primes_array[3], 3);
 
     // insert data
     for (int i = 0; i < 10; i++) {
@@ -32,10 +36,11 @@ int main() {
         int rc = insert_dictionary(test_dict, keys[i], insert_data);
     }
 
+    // search dictionary
     for (int i = 0; i < 10; i++) {
         ds_node * retrieved = search_dictionary(test_dict, keys[i]);
         if (retrieved){
-            represent(retrieved->record);
+            repr(retrieved->record);
         } else {
             printf("key not found\n");
         }

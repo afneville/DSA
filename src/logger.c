@@ -7,7 +7,7 @@
 FILE * fp;
 
 void open_logfile() {
-    fp = fopen("./logs/logfile", "w");
+    fp = fopen("../data/logfile", "w");
 };
 
 void close_logfile() {
