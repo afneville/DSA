@@ -1,6 +1,6 @@
 #+TITLE: Data Structures & Algorithms
 
-Implementation of basic data structure concepts for A-level Computer Science.
+The implementation of some basic data structure concepts for A-level Computer Science. To run the code on a unix system, follow the instructions below.
 
 #+begin_src
 cd src
