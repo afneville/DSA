@@ -4,8 +4,8 @@ LIBS=
 
 IDIR=./includes
 ODIR=./obj
-_HEADS = object.h llist.h dict.h
-_OBJ = main.o object.o llist.o dict.o
+_HEADS = object.h llist.h dict.h logger.h
+_OBJ = logger.o main.o object.o llist.o dict.o 
 
 HEADS = $(patsubst %,$(IDIR)/%,$(_HEADS))
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))

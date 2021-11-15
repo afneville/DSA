@@ -1,0 +1,78 @@
+hash: 6385400190
+inserting in position 6
+hash: 6385400191
+inserting in position 7
+hash: 6385400192
+inserting in position 0
+hash: 6385400193
+inserting in position 1
+hash: 6385400194
+inserting in position 2
+hash: 6385400195
+inserting in position 3
+hash: 6385400196
+inserting in position 4
+hash: 6385400197
+inserting in position 5
+hash: 6385400198
+hash: 6385400199
+hash to check 6385400190
+6
+stored key: key0, current key: key0
+hash to check 6385400191
+7
+stored key: key1, current key: key1
+hash to check 6385400192
+0
+stored key: key2, current key: key2
+hash to check 6385400193
+1
+stored key: key3, current key: key3
+hash to check 6385400194
+2
+stored key: key4, current key: key4
+hash to check 6385400195
+3
+stored key: key5, current key: key5
+hash to check 6385400196
+4
+stored key: key6, current key: key6
+hash to check 6385400197
+5
+stored key: key7, current key: key7
+hash to check 6385400198
+6
+stored key: key0, current key: key8
+7
+stored key: key1, current key: key8
+0
+stored key: key2, current key: key8
+1
+stored key: key3, current key: key8
+2
+stored key: key4, current key: key8
+3
+stored key: key5, current key: key8
+4
+stored key: key6, current key: key8
+5
+stored key: key7, current key: key8
+checked all buckets
+hash to check 6385400199
+7
+stored key: key1, current key: key9
+0
+stored key: key2, current key: key9
+1
+stored key: key3, current key: key9
+2
+stored key: key4, current key: key9
+3
+stored key: key5, current key: key9
+4
+stored key: key6, current key: key9
+5
+stored key: key7, current key: key9
+6
+stored key: key0, current key: key9
+checked all buckets

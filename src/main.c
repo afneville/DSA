@@ -3,9 +3,12 @@
 #include "./includes/object.h"
 #include "./includes/llist.h"
 #include "./includes/dict.h"
+#include "./includes/logger.h"
 
 
 int main() {
+
+    open_logfile();
 
     char keys[10][5] = {
         "key0",
@@ -26,22 +29,17 @@ int main() {
     for (int i = 0; i < 10; i++) {
         int j = i;
         object * insert_data = new_object(Integer, &j);
-
         int rc = insert_dictionary(test_dict, keys[i], insert_data);
-        if (rc) {
-            printf("inserted\n");
-        } else {
-            printf("not inserted\n");
-        }
     }
+
     for (int i = 0; i < 10; i++) {
         ds_node * retrieved = search_dictionary(test_dict, keys[i]);
         if (retrieved){
             represent(retrieved->record);
         }
-        
     }
 
+    close_logfile();
     return 0;
 
 }
