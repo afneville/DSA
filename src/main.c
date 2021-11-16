@@ -25,15 +25,15 @@ int main() {
         "key9"
     };
 
-    printf("%d\n", primes_array[3]);
+    // printf("%d\n", primes_array[3]);
 
-    dict * test_dict = create_dictionary(OpenAddressing, Prime, primes_array[3], 3);
+    dict * test_dict = create_dictionary(OpenAddressing, Prime, primes_array[0], 0);
 
     // insert data
     for (int i = 0; i < 10; i++) {
         int j = i;
         object * insert_data = create_object(Integer, &j);
-        int rc = insert_dictionary(test_dict, keys[i], insert_data);
+        int rc = insert_dictionary(test_dict, keys[i], insert_data, 1);
     }
 
     // search dictionary

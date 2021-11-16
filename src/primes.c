@@ -26,7 +26,6 @@ void * check_primes(void * args) {
 
     while(i < MAX_PRIME) {
 
-        printf("Thread id[%d] checking [%d]\n", pthread_self(), i);
         flag = 0;
         if (i <= 3 && i > 1) 
             ;
@@ -70,12 +69,12 @@ void gen_primes() {
     for(int i=0; i < MAX_THREADS; i++)
         pthread_join(tid[i], NULL);
 
-    printf("\n");
-    for(int i=0; i < MAX_PRIME; i++)
-        if(candidates[i] == 1)
-            printf("%d ",i);
+    // printf("\n");
+    // for(int i=0; i < MAX_PRIME; i++)
+    //     if(candidates[i] == 1)
+    //         printf("%d ",i);
 
-    printf("\nTotal primes found: %d\n", num_detected_primes);
+    // printf("\nTotal primes found: %d\n", num_detected_primes);
 
     primes_array = create_primes_array();
 

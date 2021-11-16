@@ -29,9 +29,9 @@ dict * create_dictionary(collision_resolution_method collision_approach,
 
 ds_node * search_dictionary(dict * self, char * key);
 void destroy_dictionary(dict * old_dict);
-int insert_dictionary(dict * self, char * key, object * insert_data);
+int insert_dictionary(dict * self, char * key, object * insert_data, int dynamic);
 
 float calc_load_factor(dict * self);
-void resize_dictionary(dict * self);
+void maintain_dict(dict * self);
 
 #endif // dict_H
