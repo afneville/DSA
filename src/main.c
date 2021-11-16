@@ -12,35 +12,47 @@ int main() {
     open_logfile();
     gen_primes();
 
-    char keys[10][5] = {
-        "key0",
-        "key1",
-        "key2",
-        "key3",
-        "key4",
-        "key5",
-        "key6",
-        "key7",
-        "key8",
-        "key9"
+    char keys[20][6] = {
+        "key00",
+        "key01",
+        "key02",
+        "key03",
+        "key04",
+        "key05",
+        "key06",
+        "key07",
+        "key08",
+        "key09",
+        "key10",
+        "key11",
+        "key12",
+        "key13",
+        "key14",
+        "key15",
+        "key16",
+        "key17",
+        "key18",
+        "key19"
     };
 
     // printf("%d\n", primes_array[3]);
 
-    dict * test_dict = create_dictionary(OpenAddressing, Prime, primes_array[0], 0);
+    dict * test_dict = create_dictionary(DirectChaining, Prime, primes_array[4], 4);
 
     // insert data
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 20; i++) {
         int j = i;
         object * insert_data = create_object(Integer, &j);
-        int rc = insert_dictionary(test_dict, keys[i], insert_data, 1);
+        int rc = insert_dictionary(test_dict, keys[i], insert_data, 0);
     }
 
     // search dictionary
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 20; i++) {
         ds_node * retrieved = search_dictionary(test_dict, keys[i]);
         if (retrieved){
+            printf("%s => ", keys[i]);
             repr(retrieved->record);
+            printf("\n");
         } else {
             printf("key not found\n");
         }

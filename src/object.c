@@ -31,14 +31,14 @@ void repr(object * ptr) {
 
     switch ( ptr->type ) {
         case Integer:
-            printf("%d\n", ptr->data.integer_data);
+            printf("%d", ptr->data.integer_data);
             break;
         case Decimal:
-            printf("%f\n", ptr->data.decimal_data);
+            printf("%f", ptr->data.decimal_data);
             printf("");
             break;
         case String:
-            printf("%s\n", ptr->data.string_data);
+            printf("%s", ptr->data.string_data);
             break;
         default:
             break;
