@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "./includes/object.h"
+#include "../include/object.h"
 
 object * create_object(object_type type, void * ptr) {
 

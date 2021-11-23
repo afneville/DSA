@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "./includes/object.h"
-#include "./includes/llist.h"
-#include "./includes/dict.h"
-#include "./includes/logger.h"
-#include "./includes/primes.h"
+#include "../include/object.h"
+#include "../include/llist.h"
+#include "../include/dict.h"
+#include "../include/logger.h"
+#include "../include/primes.h"
 
 
 int main() {
@@ -58,7 +58,9 @@ int main() {
         }
     }
 
+    printf("checkpoint 1\n");
     close_logfile();
+    printf("checkpoint 2\n");
     return 0;
 
 }

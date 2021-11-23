@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <string.h>
 #include "stdlib.h"
-#include "./includes/llist.h"
-#include "./includes/dict.h"
-#include "./includes/logger.h"
-#include "./includes/primes.h"
+#include "../include/llist.h"
+#include "../include/dict.h"
+#include "../include/logger.h"
+#include "../include/primes.h"
 
 dict * tmp_dict = NULL;
 
@@ -69,7 +69,7 @@ int insert_dictionary(dict * self, char * key, object * insert_data, int dynamic
         if (self->array[index]) {
             if (strcmp(self->array[index]->key, key) == 0) {
                 return -1;
-            } else if (self->collision_approach = DirectChaining) {
+            } else if (self->collision_approach == DirectChaining) {
                 traverse_llist(self->array[index], insert_node, append_llist_unique);
                 return llist_flag;
             }

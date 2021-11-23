@@ -1,7 +1,7 @@
 #include <string.h>
 #include <stdlib.h>
-#include "./includes/llist.h"
-#include "./includes/dict.h"
+#include "../include/llist.h"
+#include "../include/dict.h"
 
 int llist_flag = 0;
 

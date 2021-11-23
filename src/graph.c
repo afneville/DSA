@@ -1,2 +1,2 @@
 #include <stdlib.h>
-#include "./includes/graph.h"
+#include "../include/graph.h"
