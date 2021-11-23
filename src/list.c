@@ -1,26 +1,30 @@
 #include <string.h>
 #include <stdlib.h>
-#include "../include/llist.h"
+#include "../include/list.h"
 #include "../include/dict.h"
 
 int llist_flag = 0;
 
-node * traverse_llist(node * current, node * tmp, node * (* callback)(node * current_element, node * tmp)) {
-
+node * traverse_list(node * current, node * tmp, direction dir, node * (* callback)(node * current_element, node * tmp)) {
     llist_flag = 0;
     if (!current) return NULL;
-    node * next = current->next;
-    node * local_ret_v;
-    if(!(local_ret_v = callback(current, tmp))) {
-        local_ret_v = traverse_llist(next, tmp, callback);
+    node * next;
+    node * rv;
+    if (dir == Forwards) {
+        next = current->next;
+    } else {
+        next = current->prev;
     }
-    return local_ret_v;
-
+    if(!(rv = callback(current, tmp))) {
+        rv = traverse_list(next, tmp, dir, callback);
+    }
+    return rv;
 }
 
-node * append_llist(node * current, node * tmp) {
+node * append_list(node * current, node * tmp) {
     if (!current->next) {
         current->next = tmp;
+        tmp->prev = current;
         return tmp;
     } else {
         return NULL;
@@ -28,7 +32,7 @@ node * append_llist(node * current, node * tmp) {
 }
 
 
-node * append_llist_unique(node * current, node * tmp) {
+node * append_list_unique_key(node * current, node * tmp) {
     if (strcmp(current->key, tmp->key) == 0){
         llist_flag = -1;
         return tmp;
@@ -36,7 +40,20 @@ node * append_llist_unique(node * current, node * tmp) {
     if (!current->next) {
         llist_flag = 0;
         current->next = tmp;
+        tmp->prev = current;
         return tmp;
+    } else {
+        return NULL;
+    }
+}
+
+node * del_item_by_key(node * current, node * tmp) {
+    if (strcmp(current->key, tmp->key) == 0){
+        node * rv = current->next;
+        current->prev->next = current->next;
+        current->next->prev = current->prev;
+        free(current);
+        return rv;
     } else {
         return NULL;
     }

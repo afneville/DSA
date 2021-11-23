@@ -34,12 +34,12 @@
       "./include",
       "-c",
       "-o",
-      "obj/llist.o",
-      "src/llist.c"
+      "obj/list.o",
+      "src/list.c"
     ],
     "directory": "/home/alex/repos/data_structures",
-    "file": "/home/alex/repos/data_structures/src/llist.c",
-    "output": "/home/alex/repos/data_structures/obj/llist.o"
+    "file": "/home/alex/repos/data_structures/src/list.c",
+    "output": "/home/alex/repos/data_structures/obj/list.o"
   },
   {
     "arguments": [
@@ -96,19 +96,5 @@
     "directory": "/home/alex/repos/data_structures",
     "file": "/home/alex/repos/data_structures/src/primes.c",
     "output": "/home/alex/repos/data_structures/obj/primes.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/gcc",
-      "-I",
-      "./include",
-      "-c",
-      "-o",
-      "obj/qs.o",
-      "src/qs.c"
-    ],
-    "directory": "/home/alex/repos/data_structures",
-    "file": "/home/alex/repos/data_structures/src/qs.c",
-    "output": "/home/alex/repos/data_structures/obj/qs.o"
   }
 ]

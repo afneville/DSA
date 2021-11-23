@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "stdlib.h"
-#include "../include/llist.h"
+#include "../include/list.h"
 #include "../include/dict.h"
 #include "../include/logger.h"
 #include "../include/primes.h"
@@ -48,7 +48,7 @@ node * search_dict(dict * self, char * key) {
         if (!self->array[index]) {
             return NULL;
         } else {
-            node * data = traverse_llist(self->array[index], target, search_callback);
+            node * data = traverse_list(self->array[index], target, Forwards, search_callback);
             if (data) {
                 return data;
             } else if (self->collision_approach == DirectChaining) {
@@ -70,7 +70,7 @@ int ins_dict(dict * self, char * key, object * insert_data, int dynamic) {
             if (strcmp(self->array[index]->key, key) == 0) {
                 return -1;
             } else if (self->collision_approach == DirectChaining) {
-                traverse_llist(self->array[index], insert_node, append_llist_unique);
+                traverse_list(self->array[index], insert_node, Forwards, append_list_unique_key);
                 return llist_flag;
             }
         } else if (!self->array[index]) {
@@ -124,7 +124,7 @@ void maintain_dict(dict * self) {
         // if (self->array[i] && self->array[i]->record) {
         //     // insert_dictionary(tmp_dict, self->array[i]->key, self->array[i]->record, 0);
         // }
-        traverse_llist(self->array[i], NULL, ins_callback);
+        traverse_list(self->array[i], NULL, Forwards, ins_callback);
 
     }
 

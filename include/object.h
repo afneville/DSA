@@ -24,6 +24,7 @@ typedef struct node_T {
     char * key;
     unsigned long hash;
     struct node_T * next;
+    struct node_T * prev;
     struct node_T * left;
     struct node_T * right;
 } node;

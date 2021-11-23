@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../include/object.h"
-#include "../include/llist.h"
+#include "../include/list.h"
 #include "../include/dict.h"
 #include "../include/logger.h"
 #include "../include/primes.h"
@@ -37,13 +37,13 @@ int main() {
 
     // printf("%d\n", primes_array[3]);
 
-    dict * test_dict = new_dict(DirectChaining, Prime, primes_array[4], 4);
+    dict * test_dict = new_dict(OpenAddressing, Prime, primes_array[4], 4);
 
     // insert data
     for (int i = 0; i < 20; i++) {
         int j = i;
         object * insert_data = new_obj(Integer, &j);
-        int rc = ins_dict(test_dict, keys[i], insert_data, 0);
+        int rc = ins_dict(test_dict, keys[i], insert_data, 1);
     }
 
     // search dictionary
@@ -58,9 +58,7 @@ int main() {
         }
     }
 
-    printf("checkpoint 1\n");
     close_logfile();
-    printf("checkpoint 2\n");
     return 0;
 
 }

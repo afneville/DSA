@@ -55,7 +55,8 @@ node * new_node(object * new_data, char * key) {
 
     node * new_node = (node *) malloc(sizeof(node));
     new_node->record = new_data;
-    new_node->next = NULL;
+    new_node->next = new_node->prev = NULL;
+    new_node->left = new_node->right = NULL;
     new_node->key = key;
     return new_node;
 

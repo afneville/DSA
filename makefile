@@ -32,3 +32,9 @@ run: $(EXEC)
 
 clean:
 	$(RMDIR) $(OBJ) $(BIN)
+
+edit:
+	nvim ./src/main.c
+
+lspconfig:
+	bear -- make 2> /dev/null
