@@ -18,7 +18,7 @@ typedef enum resize_method_E {
 typedef struct dict_T {
     int size;
     int num_entries;
-    ds_node ** array;
+    node ** array;
     collision_resolution_method collision_approach;
     resize_method resize_approach;
     int primes_array_index;
@@ -26,12 +26,12 @@ typedef struct dict_T {
 
 extern dict * tmp_dict;
 
-dict * create_dictionary(collision_resolution_method collision_approach,
+dict * new_dict(collision_resolution_method collision_approach,
         resize_method resize_approach, int size, int primes_array_index);
 
-ds_node * search_dictionary(dict * self, char * key);
-void destroy_dictionary(dict * old_dict);
-int insert_dictionary(dict * self, char * key, object * insert_data, int dynamic);
+node * search_dict(dict * self, char * key);
+void del_dict(dict * old_dict);
+int ins_dict(dict * self, char * key, object * insert_data, int dynamic);
 
 float calc_load_factor(dict * self);
 void maintain_dict(dict * self);

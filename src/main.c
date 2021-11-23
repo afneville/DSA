@@ -37,21 +37,21 @@ int main() {
 
     // printf("%d\n", primes_array[3]);
 
-    dict * test_dict = create_dictionary(DirectChaining, Prime, primes_array[4], 4);
+    dict * test_dict = new_dict(DirectChaining, Prime, primes_array[4], 4);
 
     // insert data
     for (int i = 0; i < 20; i++) {
         int j = i;
-        object * insert_data = create_object(Integer, &j);
-        int rc = insert_dictionary(test_dict, keys[i], insert_data, 0);
+        object * insert_data = new_obj(Integer, &j);
+        int rc = ins_dict(test_dict, keys[i], insert_data, 0);
     }
 
     // search dictionary
     for (int i = 0; i < 20; i++) {
-        ds_node * retrieved = search_dictionary(test_dict, keys[i]);
+        node * retrieved = search_dict(test_dict, keys[i]);
         if (retrieved){
             printf("%s => ", keys[i]);
-            repr(retrieved->record);
+            repr_obj(retrieved->record);
             printf("\n");
         } else {
             printf("key not found\n");

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "../include/object.h"
 
-object * create_object(object_type type, void * ptr) {
+object * new_obj(obj_type type, void * ptr) {
 
     object * new_object = (object *) malloc(sizeof(object));
 
@@ -27,7 +27,7 @@ object * create_object(object_type type, void * ptr) {
     return new_object;
 }
 
-void repr(object * ptr) {
+void repr_obj(object * ptr) {
 
     switch ( ptr->type ) {
         case Integer:
@@ -46,14 +46,14 @@ void repr(object * ptr) {
     }
 }
 
-void destroy_object(object * ptr){
+void del_obj(object * ptr){
     free(ptr);
 };
 
 
-ds_node * create_ds_node(object * new_data, char * key) {
+node * new_node(object * new_data, char * key) {
 
-    ds_node * new_node = (ds_node *) malloc(sizeof(ds_node));
+    node * new_node = (node *) malloc(sizeof(node));
     new_node->record = new_data;
     new_node->next = NULL;
     new_node->key = key;
@@ -61,7 +61,7 @@ ds_node * create_ds_node(object * new_data, char * key) {
 
 }
 
-void destroy_ds_node(ds_node * old_node) {
-    destroy_object(old_node->record);
+void del_node(node * old_node) {
+    del_obj(old_node->record);
     free(old_node);
 }

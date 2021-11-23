@@ -5,12 +5,12 @@
 
 int llist_flag = 0;
 
-ds_node * traverse_llist(ds_node * current, ds_node * tmp, ds_node * (* callback)(ds_node * current_element, ds_node * tmp)) {
+node * traverse_llist(node * current, node * tmp, node * (* callback)(node * current_element, node * tmp)) {
 
     llist_flag = 0;
     if (!current) return NULL;
-    ds_node * next = current->next;
-    ds_node * local_ret_v;
+    node * next = current->next;
+    node * local_ret_v;
     if(!(local_ret_v = callback(current, tmp))) {
         local_ret_v = traverse_llist(next, tmp, callback);
     }
@@ -18,7 +18,7 @@ ds_node * traverse_llist(ds_node * current, ds_node * tmp, ds_node * (* callback
 
 }
 
-ds_node * append_llist(ds_node * current, ds_node * tmp) {
+node * append_llist(node * current, node * tmp) {
     if (!current->next) {
         current->next = tmp;
         return tmp;
@@ -28,7 +28,7 @@ ds_node * append_llist(ds_node * current, ds_node * tmp) {
 }
 
 
-ds_node * append_llist_unique(ds_node * current, ds_node * tmp) {
+node * append_llist_unique(node * current, node * tmp) {
     if (strcmp(current->key, tmp->key) == 0){
         llist_flag = -1;
         return tmp;
@@ -42,13 +42,13 @@ ds_node * append_llist_unique(ds_node * current, ds_node * tmp) {
     }
 }
 
-ds_node * print_callback(ds_node * current, ds_node * tmp) {
+node * print_callback(node * current, node * tmp) {
     if(current->record)
-        repr(current->record);
+        repr_obj(current->record);
     return NULL;
 }
 
-ds_node * search_callback(ds_node * current, ds_node * tmp) {
+node * search_callback(node * current, node * tmp) {
     if(strcmp(current->key, tmp->key) == 0) {
         llist_flag = 0;
         return current;
@@ -57,8 +57,8 @@ ds_node * search_callback(ds_node * current, ds_node * tmp) {
     }
 }
 
-ds_node * insert_callback(ds_node * current, ds_node * tmp) {
-    insert_dictionary(tmp_dict, current->key, current->record, 0);
+node * ins_callback(node * current, node * tmp) {
+    ins_dict(tmp_dict, current->key, current->record, 0);
     // free(current);
     return NULL;
 }

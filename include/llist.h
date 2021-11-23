@@ -6,13 +6,13 @@
 
 extern int llist_flag;
 
-ds_node * traverse_llist(ds_node * current, ds_node * tmp, ds_node * (* callback)(ds_node * current_element, ds_node * tmp));
+node * traverse_llist(node * current, node * tmp, node * (* callback)(node * current_element, node * tmp));
 
 // callbacks
-ds_node * append_llist(ds_node * current, ds_node * tmp);
-ds_node * append_llist_unique(ds_node * current, ds_node * tmp);
-ds_node * print_callback(ds_node * current, ds_node * tmp);
-ds_node * search_callback(ds_node * current, ds_node * tmp);
-ds_node * insert_callback(ds_node * current, ds_node * tmp);
+node * append_llist(node * current, node * tmp);
+node * append_llist_unique(node * current, node * tmp);
+node * print_callback(node * current, node * tmp);
+node * search_callback(node * current, node * tmp);
+node * ins_callback(node * current, node * tmp);
 
 #endif // llist_H

@@ -17,12 +17,12 @@ unsigned long hash(char *str){
 }
 
 
-dict * create_dictionary(collision_resolution_method collision_approach,
+dict * new_dict(collision_resolution_method collision_approach,
         resize_method resize_approach, int size, int primes_array_index) {
 
     dict * self = (dict *) malloc(sizeof(dict));
 
-    self->array = (ds_node **) malloc(sizeof(ds_node *) * size);
+    self->array = (node **) malloc(sizeof(node *) * size);
     self->primes_array_index = primes_array_index;
     self->size = size;
     self->num_entries = 0;
@@ -33,14 +33,14 @@ dict * create_dictionary(collision_resolution_method collision_approach,
 
 }
 
-void destroy_dictionary(dict * old_dict){
+void del_dict(dict * old_dict){
     free(old_dict->array);
     free(old_dict);
 }
 
-ds_node * search_dictionary(dict * self, char * key) {
+node * search_dict(dict * self, char * key) {
 
-    ds_node * target = create_ds_node(NULL, key);
+    node * target = new_node(NULL, key);
     target->hash = hash(key);
 
     for (int i = 0; i < self->size; i ++){
@@ -48,7 +48,7 @@ ds_node * search_dictionary(dict * self, char * key) {
         if (!self->array[index]) {
             return NULL;
         } else {
-            ds_node * data = traverse_llist(self->array[index], target, search_callback);
+            node * data = traverse_llist(self->array[index], target, search_callback);
             if (data) {
                 return data;
             } else if (self->collision_approach == DirectChaining) {
@@ -59,9 +59,9 @@ ds_node * search_dictionary(dict * self, char * key) {
     return NULL;
 }
 
-int insert_dictionary(dict * self, char * key, object * insert_data, int dynamic) {
+int ins_dict(dict * self, char * key, object * insert_data, int dynamic) {
 
-    ds_node * insert_node = create_ds_node(insert_data, key);
+    node * insert_node = new_node(insert_data, key);
     insert_node->hash = hash(insert_node->key);
 
     for (int i = 0; i < self->size; i++){
@@ -117,14 +117,14 @@ void maintain_dict(dict * self) {
 
     printf("resizing: %d\n", new_size);
     // destroy_dictionary(tmp_dict);
-    tmp_dict = create_dictionary(self->collision_approach, self->resize_approach, new_size, new_prime_index);
+    tmp_dict = new_dict(self->collision_approach, self->resize_approach, new_size, new_prime_index);
 
 
     for (int i = 0; i < self->size; i++) {
         // if (self->array[i] && self->array[i]->record) {
         //     // insert_dictionary(tmp_dict, self->array[i]->key, self->array[i]->record, 0);
         // }
-        traverse_llist(self->array[i], NULL, insert_callback);
+        traverse_llist(self->array[i], NULL, ins_callback);
 
     }
 
