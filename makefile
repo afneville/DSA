@@ -13,7 +13,7 @@ LDLIBS  := -lpthread
 
 .PHONY: all run clean
 
-all: $(EXEC)
+build: $(EXEC)
 
 $(EXEC): $(OBJS) | $(BIN)
 	$(CC) $^ -o $@ $(LDLIBS)
