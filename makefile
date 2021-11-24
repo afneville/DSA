@@ -5,23 +5,27 @@ BIN     := ./bin
 OBJ     := ./obj
 INCLUDE := ./include
 SRC     := ./src
+APP		:= ./main
 SRCS    := $(wildcard $(SRC)/*.c)
-TESTS    := $(wildcard ./tests/*.c)
+APPS    := $(wildcard $(APP)/*.c)
+TESTS   := $(wildcard ./tests/*.c)
 OBJS    := $(patsubst $(SRC)/%.c,$(OBJ)/%.o,$(SRCS))
-EXEC    := $(BIN)/a.out
-TEST    := $(BIN)/b.out
+PROGS   := $(patsubst $(APP)/%.c,$(BIN)/%,$(APPS))
 CFLAGS  := -I $(INCLUDE)
 LDLIBS  := -lpthread
 
-.PHONY: all run clean
+.PHONY: all run clean build
 
-build: $(EXEC)
+build: $(PROGS)
 
-$(EXEC): $(OBJS) | $(BIN)
-	$(CC) $^ -o $@ $(LDLIBS)
+# $(EXEC): $(OBJS) | $(BIN)
+#	 $(CC) $^ -o $@ $(LDLIBS)
 
 $(OBJ)/%.o: $(SRC)/%.c | $(OBJ)
 	$(CC) $(CFLAGS) -c $< -o $@
+
+$(BIN)/%: $(APP)/%.c $(OBJS) | $(BIN)
+	$(CC) $^ -o $@ $(LDLIBS)
 
 $(BIN):
 	$(MKDIR) $@
@@ -40,8 +44,3 @@ edit:
 
 lspconfig:
 	bear -- make 2> /dev/null
-
-$(TEST): $(OBJS) | $(BIN)
-	rm -rf $(OBJ)/main.o
-	$(CC) $^ -o $@ $(LDLIBS)
-
