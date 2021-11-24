@@ -29,8 +29,9 @@ extern dict * tmp_dict;
 dict * new_dict(resolve collision_approach,
         resize resize_approach, int size, int primes_array_index);
 
-node * search_dict(dict * self, char * key);
 void del_dict(dict * old_dict);
+node * search_dict(dict * self, char * key);
+void rm_dict(dict * self, char * key);
 int ins_dict(dict * self, char * key, object * insert_data, int dynamic);
 
 float calc_load_factor(dict * self);

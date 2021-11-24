@@ -93,7 +93,6 @@ node * append_list(node * current, node * tmp) {
     }
 }
 
-
 node * append_list_unique_key(node * current, node * tmp) {
     if (strcmp(current->key, tmp->key) == 0){
         llist_flag = -1;
@@ -112,8 +111,12 @@ node * append_list_unique_key(node * current, node * tmp) {
 node * del_item_by_key(node * current, node * tmp) {
     if (strcmp(current->key, tmp->key) == 0){
         node * rv = current->next;
-        current->prev->next = current->next;
-        current->next->prev = current->prev;
+        if (current->prev) {
+            current->prev->next = current->next;
+        }
+        if (current->next) {
+            current->next->prev = current->prev;
+        }
         free(current);
         return rv;
     } else {
@@ -136,8 +139,14 @@ node * search_callback(node * current, node * tmp) {
     }
 }
 
-node * ins_callback(node * current, node * tmp) {
+node * ins_dict_callback(node * current, node * tmp) {
     ins_dict(tmp_dict, current->key, current->record, 0);
-    // free(current);
+    return NULL;
+}
+
+
+node * del_callback(node * current, node * tmp) {
+    del_obj(current->record);
+    del_node(current);
     return NULL;
 }

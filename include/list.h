@@ -34,6 +34,7 @@ node * append_list_unique_key(node * current, node * tmp);
 node * del_item_by_key(node * current, node * tmp);
 node * print_callback(node * current, node * tmp);
 node * search_callback(node * current, node * tmp);
-node * ins_callback(node * current, node * tmp);
+node * ins_dict_callback(node * current, node * tmp);
+node * del_callback(node * current, node * tmp);
 
 #endif // llist_H

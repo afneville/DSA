@@ -60,6 +60,29 @@ node * search_dict(dict * self, char * key) {
     return NULL;
 }
 
+void rm_dict(dict * self, char * key) {
+
+    node * target = new_node();
+    target->key = key;
+    target->hash = hash(key);
+
+    for (int i = 0; i < self->size; i ++){
+        int index = (target->hash + i) % self->size;
+        if (!self->array[index]) {
+            return;
+        } else if (self->collision_approach == DirectChaining){
+            if (self->array[index]->next) {
+                node * data = traverse_list(self->array[index], target, Forwards, del_item_by_key);
+            } else {
+                
+            }
+        } else {
+                break;
+        }
+    }
+    return;
+}
+
 int ins_dict(dict * self, char * key, object * insert_data, int dynamic) {
 
     node * node_p = new_node();
@@ -128,7 +151,7 @@ void maintain_dict(dict * self) {
         // if (self->array[i] && self->array[i]->record) {
         //     // insert_dictionary(tmp_dict, self->array[i]->key, self->array[i]->record, 0);
         // }
-        traverse_list(self->array[i], NULL, Forwards, ins_callback);
+        traverse_list(self->array[i], NULL, Forwards, ins_dict_callback);
 
     }
 
