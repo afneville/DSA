@@ -7,35 +7,15 @@
 #include "../include/primes.h"
 
 
-int main() {
-
-    open_logfile();
-    gen_primes();
+void test_dict_implementation() {
 
     char keys[20][6] = {
-        "key00",
-        "key01",
-        "key02",
-        "key03",
-        "key04",
-        "key05",
-        "key06",
-        "key07",
-        "key08",
-        "key09",
-        "key10",
-        "key11",
-        "key12",
-        "key13",
-        "key14",
-        "key15",
-        "key16",
-        "key17",
-        "key18",
-        "key19"
+        "key00", "key01", "key02", "key03",
+        "key04", "key05", "key06", "key07",
+        "key08", "key09", "key10", "key11",
+        "key12", "key13", "key14", "key15",
+        "key16", "key17", "key18", "key19"
     };
-
-    // printf("%d\n", primes_array[3]);
 
     dict * test_dict = new_dict(OpenAddressing, Prime, primes_array[4], 4);
 
@@ -58,7 +38,32 @@ int main() {
         }
     }
 
+}
+
+void test_list_implementation() {
+
+    list * test_list = new_list();
+
+    for (int i = 0; i < 20; i++) {
+        int j = i;
+        object * insert_data = new_obj(Integer, &j);
+        push(test_list, insert_data);
+    }
+    repr_obj(dequeue(test_list));
+    printf("\n");
+    for (int i = 0; i < 20; i++) {
+        repr_obj(pop(test_list));
+        printf(" -> ");
+    }
+    printf("END\n");
+    del_list(test_list);
+}
+
+int main() {
+    open_logfile();
+    gen_primes();
+    // test_dict_implementation();
+    test_list_implementation();
     close_logfile();
     return 0;
-
 }

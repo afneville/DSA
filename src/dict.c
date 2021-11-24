@@ -17,8 +17,8 @@ unsigned long hash(char *str){
 }
 
 
-dict * new_dict(collision_resolution_method collision_approach,
-        resize_method resize_approach, int size, int primes_array_index) {
+dict * new_dict(resolve collision_approach,
+        resize resize_approach, int size, int primes_array_index) {
 
     dict * self = (dict *) malloc(sizeof(dict));
 
@@ -40,7 +40,8 @@ void del_dict(dict * old_dict){
 
 node * search_dict(dict * self, char * key) {
 
-    node * target = new_node(NULL, key);
+    node * target = new_node();
+    target->key = key;
     target->hash = hash(key);
 
     for (int i = 0; i < self->size; i ++){
@@ -61,20 +62,23 @@ node * search_dict(dict * self, char * key) {
 
 int ins_dict(dict * self, char * key, object * insert_data, int dynamic) {
 
-    node * insert_node = new_node(insert_data, key);
-    insert_node->hash = hash(insert_node->key);
+    node * node_p = new_node();
+    node_p->key = key;
+    node_p->record = insert_data;
+
+    node_p->hash = hash(node_p->key);
 
     for (int i = 0; i < self->size; i++){
-        int index = (insert_node->hash + i) % self->size;
+        int index = (node_p->hash + i) % self->size;
         if (self->array[index]) {
             if (strcmp(self->array[index]->key, key) == 0) {
                 return -1;
             } else if (self->collision_approach == DirectChaining) {
-                traverse_list(self->array[index], insert_node, Forwards, append_list_unique_key);
+                traverse_list(self->array[index], node_p, Forwards, append_list_unique_key);
                 return llist_flag;
             }
         } else if (!self->array[index]) {
-            self->array[index] = insert_node;
+            self->array[index] = node_p;
             self->num_entries++;
             if (dynamic)
                 maintain_dict(self);

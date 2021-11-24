@@ -12,7 +12,6 @@ typedef enum direction_E {
 } direction;
 
 typedef struct list_T {
-    node ** array;
     node * head; 
     node * tail;
     int num_elements;
@@ -21,11 +20,11 @@ typedef struct list_T {
 list * new_list();
 void del_list(list * list_p);
 
-void push(list * list_p);
-node * peek(list * list_p);
-node * pop(list * list_p);
-void enqueue(list * list_p);
-node * dequeue(list * list_p);
+void push(list * list_p, object * obj_p);
+object * peek(list * list_p);
+object * pop(list * list_p);
+void enqueue(list * list_p, object * obj_p);
+object * dequeue(list * list_p);
 
 node * traverse_list(node * current, node * tmp, direction dir, node * (* callback)(node * current_element, node * tmp));
 

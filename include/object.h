@@ -20,7 +20,6 @@ typedef struct object_T {
 
 typedef struct node_T {
     object * record;
-    int buried_nodes;
     char * key;
     unsigned long hash;
     struct node_T * next;
@@ -33,7 +32,7 @@ object * new_obj(obj_type type, void * ptr);
 void repr_obj(object * ptr);
 void del_obj(object * ptr);
 
-node * new_node(object * new_data, char * key);
+node * new_node();
 void del_node(node * old_node);
 
 #endif // object_H

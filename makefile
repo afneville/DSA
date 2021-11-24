@@ -6,8 +6,10 @@ OBJ     := ./obj
 INCLUDE := ./include
 SRC     := ./src
 SRCS    := $(wildcard $(SRC)/*.c)
+TESTS    := $(wildcard ./tests/*.c)
 OBJS    := $(patsubst $(SRC)/%.c,$(OBJ)/%.o,$(SRCS))
 EXEC    := $(BIN)/a.out
+TEST    := $(BIN)/b.out
 CFLAGS  := -I $(INCLUDE)
 LDLIBS  := -lpthread
 
@@ -38,3 +40,8 @@ edit:
 
 lspconfig:
 	bear -- make 2> /dev/null
+
+$(TEST): $(OBJS) | $(BIN)
+	rm -rf $(OBJ)/main.o
+	$(CC) $^ -o $@ $(LDLIBS)
+

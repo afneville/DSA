@@ -29,6 +29,11 @@ object * new_obj(obj_type type, void * ptr) {
 
 void repr_obj(object * ptr) {
 
+    if (!ptr) {
+        printf("NULL");
+        return;
+    }
+
     switch ( ptr->type ) {
         case Integer:
             printf("%d", ptr->data.integer_data);
@@ -44,6 +49,8 @@ void repr_obj(object * ptr) {
             break;
 
     }
+
+    return;
 }
 
 void del_obj(object * ptr){
@@ -51,15 +58,13 @@ void del_obj(object * ptr){
 };
 
 
-node * new_node(object * new_data, char * key) {
-
-    node * new_node = (node *) malloc(sizeof(node));
-    new_node->record = new_data;
-    new_node->next = new_node->prev = NULL;
-    new_node->left = new_node->right = NULL;
-    new_node->key = key;
-    return new_node;
-
+node * new_node() {
+    node * node_p = (node *) malloc(sizeof(node));
+    node_p->record = NULL;
+    node_p->next = node_p->prev = NULL;
+    node_p->left = node_p->right = NULL;
+    node_p->key = NULL;
+    return node_p;
 }
 
 void del_node(node * old_node) {
