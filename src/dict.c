@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <string.h>
 #include "stdlib.h"
-#include "../include/list.h"
-#include "../include/dict.h"
-#include "../include/logger.h"
-#include "../include/primes.h"
+#include "../inc/list.h"
+#include "../inc/dict.h"
+#include "../inc/logger.h"
+#include "../inc/primes.h"
 
 dict * tmp_dict = NULL;
 

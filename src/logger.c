@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include "../include/logger.h"
+#include "../inc/logger.h"
 
 FILE * fp;
 

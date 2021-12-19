@@ -2,7 +2,7 @@
 #include <pthread.h>
 #include <semaphore.h>
 #include <stdlib.h>
-#include "../include/primes.h"
+#include "../inc/primes.h"
 
 sem_t semaphore;
 int num_detected_primes = 0;

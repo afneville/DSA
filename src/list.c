@@ -1,8 +1,8 @@
 #include <string.h>
 #include <stdlib.h>
-#include "../include/list.h"
-#include "../include/dict.h"
-#include "object.h"
+#include "../inc/list.h"
+#include "../inc/dict.h"
+#include "../inc/object.h"
 
 int llist_flag = 0;
 
