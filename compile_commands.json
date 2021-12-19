@@ -3,98 +3,102 @@
     "arguments": [
       "/usr/bin/gcc",
       "-I",
-      "./include",
+      "./inc",
       "-c",
       "-o",
       "obj/dict.o",
       "src/dict.c"
     ],
-    "directory": "/home/alex/repos/data_structures",
-    "file": "/home/alex/repos/data_structures/src/dict.c",
-    "output": "/home/alex/repos/data_structures/obj/dict.o"
+    "directory": "/home/alex/repos/DSA",
+    "file": "/home/alex/repos/DSA/src/dict.c",
+    "output": "/home/alex/repos/DSA/obj/dict.o"
   },
   {
     "arguments": [
       "/usr/bin/gcc",
       "-I",
-      "./include",
+      "./inc",
       "-c",
       "-o",
       "obj/graph.o",
       "src/graph.c"
     ],
-    "directory": "/home/alex/repos/data_structures",
-    "file": "/home/alex/repos/data_structures/src/graph.c",
-    "output": "/home/alex/repos/data_structures/obj/graph.o"
+    "directory": "/home/alex/repos/DSA",
+    "file": "/home/alex/repos/DSA/src/graph.c",
+    "output": "/home/alex/repos/DSA/obj/graph.o"
   },
   {
     "arguments": [
       "/usr/bin/gcc",
       "-I",
-      "./include",
+      "./inc",
       "-c",
       "-o",
       "obj/list.o",
       "src/list.c"
     ],
-    "directory": "/home/alex/repos/data_structures",
-    "file": "/home/alex/repos/data_structures/src/list.c",
-    "output": "/home/alex/repos/data_structures/obj/list.o"
+    "directory": "/home/alex/repos/DSA",
+    "file": "/home/alex/repos/DSA/src/list.c",
+    "output": "/home/alex/repos/DSA/obj/list.o"
   },
   {
     "arguments": [
       "/usr/bin/gcc",
       "-I",
-      "./include",
+      "./inc",
       "-c",
       "-o",
       "obj/logger.o",
       "src/logger.c"
     ],
-    "directory": "/home/alex/repos/data_structures",
-    "file": "/home/alex/repos/data_structures/src/logger.c",
-    "output": "/home/alex/repos/data_structures/obj/logger.o"
+    "directory": "/home/alex/repos/DSA",
+    "file": "/home/alex/repos/DSA/src/logger.c",
+    "output": "/home/alex/repos/DSA/obj/logger.o"
   },
   {
     "arguments": [
       "/usr/bin/gcc",
       "-I",
-      "./include",
-      "-c",
-      "-o",
-      "obj/main.o",
-      "src/main.c"
-    ],
-    "directory": "/home/alex/repos/data_structures",
-    "file": "/home/alex/repos/data_structures/src/main.c",
-    "output": "/home/alex/repos/data_structures/obj/main.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/gcc",
-      "-I",
-      "./include",
+      "./inc",
       "-c",
       "-o",
       "obj/object.o",
       "src/object.c"
     ],
-    "directory": "/home/alex/repos/data_structures",
-    "file": "/home/alex/repos/data_structures/src/object.c",
-    "output": "/home/alex/repos/data_structures/obj/object.o"
+    "directory": "/home/alex/repos/DSA",
+    "file": "/home/alex/repos/DSA/src/object.c",
+    "output": "/home/alex/repos/DSA/obj/object.o"
   },
   {
     "arguments": [
       "/usr/bin/gcc",
       "-I",
-      "./include",
+      "./inc",
       "-c",
       "-o",
       "obj/primes.o",
       "src/primes.c"
     ],
-    "directory": "/home/alex/repos/data_structures",
-    "file": "/home/alex/repos/data_structures/src/primes.c",
-    "output": "/home/alex/repos/data_structures/obj/primes.o"
+    "directory": "/home/alex/repos/DSA",
+    "file": "/home/alex/repos/DSA/src/primes.c",
+    "output": "/home/alex/repos/DSA/obj/primes.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "obj/dict.o",
+      "obj/graph.o",
+      "obj/list.o",
+      "obj/logger.o",
+      "obj/object.o",
+      "obj/primes.o",
+      "-o",
+      "bin/test",
+      "main/test.c"
+    ],
+    "directory": "/home/alex/repos/DSA",
+    "file": "/home/alex/repos/DSA/main/test.c",
+    "output": "/home/alex/repos/DSA/bin/test"
   }
 ]

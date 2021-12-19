@@ -1,9 +1,7 @@
 #ifndef primes_H
 #define primes_H
 
-// macros
-// #define N 2147483647
-#define MAX_PRIME 1000
+#define MAX_PRIME 10000
 #define MAX_THREADS 4
 
 // globals

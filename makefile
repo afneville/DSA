@@ -12,7 +12,7 @@ TESTS   := $(wildcard ./tests/*.c)
 OBJS    := $(patsubst $(SRC)/%.c,$(OBJ)/%.o,$(SRCS))
 PROGS   := $(patsubst $(APP)/%.c,$(BIN)/%,$(APPS))
 CFLAGS  := -I $(INCLUDE)
-LDLIBS  := -lpthread
+LDLIBS  := -lpthread -lm
 
 .PHONY: all run clean build
 
