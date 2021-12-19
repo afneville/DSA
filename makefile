@@ -18,9 +18,6 @@ LDLIBS  := -lpthread -lm
 
 build: $(PROGS)
 
-# $(EXEC): $(OBJS) | $(BIN)
-#	 $(CC) $^ -o $@ $(LDLIBS)
-
 $(OBJ)/%.o: $(SRC)/%.c | $(OBJ)
 	$(CC) $(CFLAGS) -c $< -o $@
 
@@ -32,9 +29,6 @@ $(BIN):
 
 $(OBJ):
 	$(MKDIR) $@
-
-run: $(EXEC)
-	$<
 
 clean:
 	$(RMDIR) $(OBJ) $(BIN)
