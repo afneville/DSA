@@ -5,7 +5,7 @@ BIN     := ./bin
 OBJ     := ./obj
 INCLUDE := ./inc
 SRC     := ./src
-APP		:= ./main
+APP		:= ./run
 SRCS    := $(wildcard $(SRC)/*.c)
 APPS    := $(wildcard $(APP)/*.c)
 TESTS   := $(wildcard ./tests/*.c)
@@ -32,9 +32,6 @@ $(OBJ):
 
 clean:
 	$(RMDIR) $(OBJ) $(BIN)
-
-edit:
-	nvim ./src/main.c
 
 lspconfig:
 	bear -- make 2> /dev/null
