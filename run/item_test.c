@@ -3,20 +3,18 @@
 #include "../inc/item.h"
 
 int main() {
-    int int_val = 4;
-    float flt_val = 3.2;
-    char char_val = 't';
-    char str_val[] = "Hello!";
     item ** array = (item **) malloc(sizeof(item *) * 4);
-    array[0] = new_item(Integer, &int_val);
-    array[1] = new_item(Float, &flt_val);
-    array[2] = new_item(Character, &char_val);
-    array[3] = new_item(String, &str_val);
+    array[0] = new_item(Integer, 4);
+    array[1] = new_item(Float, 3.2);
+    array[2] = new_item(Character, 't');
+    array[3] = new_item(String, "Hello!");
     printf("[");
     for (int i = 0; i < 4; i++) {
         print_item(array[i]);
+        free(array[i]);
         printf(", ");
     }
     printf("\b\b]\n");
+    free(array);
     return 0;
 }

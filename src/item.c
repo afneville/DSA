@@ -1,20 +1,24 @@
 #include "../inc/item.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdarg.h>
 
-item * new_item(item_type type, void * val_ptr) {
-    item * rv = (item *) malloc(sizeof(item));
-    rv->type = type;
-    switch ( rv->type ) {
-        case Integer: rv->val.int_val = *((int *) val_ptr); break;
-        case Float: rv->val.flt_val = *((float *) val_ptr); break;
-        case Double: rv->val.dbl_val = *((double *) val_ptr); break;
-        case Character: rv->val.char_val = *((char *) val_ptr); break;
-        case String: rv->val.str_val = (char *) val_ptr; break;
-        case Pointer: rv->val.ptr_val = val_ptr; break;
+item * new_item(item_type type, ...) {
+    va_list args;
+    va_start(args, 1);
+    item * new_ptr = (item *) malloc(sizeof(item));
+    new_ptr->type = type;
+    switch ( new_ptr->type ) {
+        case Integer: new_ptr->val.int_val = va_arg(args, int); break;
+        case Double: new_ptr->val.dbl_val = va_arg(args, double); break;
+        case Float: new_ptr->val.flt_val = (float) va_arg(args, double); break;
+        case Character: new_ptr->val.char_val = (char) va_arg(args, int); break;
+        case String: new_ptr->val.str_val = va_arg(args, char *); break;
+        case Pointer: new_ptr->val.ptr_val = va_arg(args, void *); break;
         default: break;
     }
-    return rv;
+    va_end(args);
+    return new_ptr;
 }
 
 void del_item(item * ptr) {
