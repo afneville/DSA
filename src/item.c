@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
-item * new_item(item_type type, ...) {
+item * new_item_p(item_type type, ...) {
     va_list args;
     va_start(args, 1);
     item * new_ptr = (item *) malloc(sizeof(item));
@@ -21,7 +21,26 @@ item * new_item(item_type type, ...) {
     return new_ptr;
 }
 
-void del_item(item * ptr) {
+item init_item(item_type type, ...) {
+    va_list args;
+    va_start(args, 1);
+    item new_item;
+    new_item.type = type;
+    switch ( new_item.type ) {
+        case Integer: new_item.val.int_val = va_arg(args, int); break;
+        case Double: new_item.val.dbl_val = va_arg(args, double); break;
+        case Float: new_item.val.flt_val = (float) va_arg(args, double); break;
+        case Character: new_item.val.char_val = (char) va_arg(args, int); break;
+        case String: new_item.val.str_val = va_arg(args, char *); break;
+        case Pointer: new_item.val.ptr_val = va_arg(args, void *); break;
+        default: break;
+    }
+    va_end(args);
+    return new_item;
+
+}
+
+void del_item_p(item * ptr) {
     free(ptr);
 }
 

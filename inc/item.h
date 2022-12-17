@@ -24,8 +24,9 @@ typedef struct item_T {
     item_type type;
 } item;
 
-item * new_item(item_type type, ...);
+item * new_item_p(item_type type, ...);
+item init_item(item_type type, ...);
 void print_item(item * ptr);
-void del_item(item * ptr);
+void del_item_p(item * ptr);
 
 #endif // item_H
