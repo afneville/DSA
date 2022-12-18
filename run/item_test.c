@@ -1,34 +1,35 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../inc/item.h"
+#define LOCALLEN 9
 
 int main() {
-    item ** item_p_arr = (item **) malloc(sizeof(item *) * 4);
-    item_p_arr[0] = new_item_p(Integer, 4);
-    item_p_arr[1] = new_item_p(Float, 3.2);
-    item_p_arr[2] = new_item_p(Character, 't');
-    item_p_arr[3] = new_item_p(String, "Hello!");
-    printf("[");
-    for (int i = 0; i < 4; i++) {
-        print_item(item_p_arr[i]);
-        del_item_p(item_p_arr[i]);
-        printf(", ");
-    }
-    printf("\b\b]\n");
-    free(item_p_arr);
+    item ** a = (item **) malloc(sizeof(item *) * LOCALLEN);
+    int i = 0;
+    a[i++] = new_item(Integer, 4);
+    a[i++] = new_item(Integer, 4);
+    a[i++] = new_item(Integer, 5);
+    a[i++] = new_item(Float, 3.2);
+    a[i++] = new_item(Character, 't');
+    a[i++] = new_item(String, "Hello!");
+    a[i++] = new_item(String, "Hello!");
+    a[i++] = new_item(String, "Hi!");
+    a[i++] = new_item(String, "This is quite a long string.");
 
-    item * item_arr = (item *) malloc(sizeof(item) * 4);
-    item_arr[0] = (item) {.val.int_val = 5, .type = Integer};
-    item_arr[1] = (item) {.val.flt_val = 8.9, .type = Float};
-    item_arr[2] = init_item(Character, 's');
-    item_arr[3] = init_item(String, "Goodbye!");
+    printf("%d\n", compare_item(a[5], a[6]));
+    printf("%d\n", compare_item(a[5], a[7]));
+    printf("%d\n", compare_item(a[0], a[1]));
+    printf("%d\n\n", compare_item(a[0], a[2]));
+    printf("%s\n", repr_item(a[8]));
+
     printf("[");
-    for (int i = 0; i < 4; i++) {
-        print_item(&item_arr[i]);
+    for (int i = 0; i < LOCALLEN; i++) {
+        print_item(a[i]);
+        del_item(a[i]);
         printf(", ");
     }
     printf("\b\b]\n");
-    free(item_arr);
+    free(a);
 
     return 0;
 }
