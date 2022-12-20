@@ -2,3 +2,175 @@
 #+TITLE: Data Structures & Algorithms
 
 Implementation of various important data structures and algorithms in the C language.
+
+* Directory Structure & Build Commands
+
+For many small to medium size C projects, it is very convenient to split source files across three sub-directories, according to their purpose. =./inc/= is for header files, =./src/= is for generic source files, and =./run/= is for source files for which an executable should be generated.
+
+#+begin_src text
+ .
+├──   bin/
+│  └──  test
+├──   inc/
+│  ├──  item.h
+│  └──  list.h
+├──   obj/
+│  ├──  item.o
+│  └──  list.o
+├──   run/
+│  └──  test.c
+├──   src/
+│  ├──  item.c
+│  ├──  list.c
+│  └──  tree.c
+├──  .gitignore
+├──  compile_commands.json
+├──  makefile
+└──  README.org
+#+end_src
+
+The project root directory contains the makefile. =compile_commands.json= exists for language server configuration, GCC is used in the makefile. The clean target of make will fully remove the binary and object file directories. Fully rebuilding the project in a single command:
+
+#+begin_src sh
+make clean && make
+#+end_src
+
+* Design Patterns
+
+C and C++ are two of the very few languages in widespread use supporting dynamic memory allocation. C removes a significant amount of abstraction that other languages provide. It is possible to allocate, address and access regions of memory directly to build more complex types from scratch. /Abstract Data Types/ are, however, more difficult to implement; information hiding, encapsulation and other design patters typically associated with object orientation are difficult to implement in C, though there are methods to do so.
+
+** Namespaces
+
+C has no built in support for user defined namespaces, C++ does. This is problematic if two libraries, each with a separate header, contain functions with the same name and signature, causing a multiple function definition error. For a library implemented in the file =lib.c= along with the =lib.h= header file containing function signatures, an =extern struct= containing function pointers can be used to provide the public interface to the library. The structure definition is part of the same header file.
+
+#+begin_src c
+// lib.h
+struct lib {
+    void (*F1) ();
+    void (*F2) ();
+};
+extern struct lib Lib;
+#+end_src
+
+This header does not contain any function signatures, they are effectively private and could be made static. Any file including =lib.h= knows of the declaration of the variable =struct lib Lib=. This definition takes place in the library source file, the function pointers are set to the appropriate internal functions.
+
+#+begin_src c
+// lib.c
+#include "lib.h"
+#include <stdio.h>
+static void F1_ () {puts("F1");}
+static void F2_ () {puts("F2");}
+struct lib Lib = {.F1 = &F1_, .F2 = &F2_};
+#+end_src
+
+By including =lib.h=, any other source file can access the functions of the library /namespace/ referred to by =Lib= with a syntax that resembles many other high level languages.
+
+#+begin_src c
+//  main.c
+#include "lib.h"
+int main() {Lib.F1(); Lib.F2();}
+#+end_src
+
+** Encapsulation
+
+If the purpose of a source file or library is to define a type, it is preferable that as little information about the type implementation is exposed to the wider program. This is easily achieved in C by moving the structure definition from the header file back to the source file, leaving the =typedef= alias in place. For example, a simple type containing two integers and representing a two dimensional coordinate system, would be defined outwardly with a type alias and a set of public functions.
+
+#+begin_src c
+// coord.h
+typedef struct coord_S_ coord;
+coord * new_coord(int x, int y);
+void print_coord(coord * self);
+void del_coord(coord * self);
+#+end_src
+
+The type definition in the header file is shared the only information made available outside the source file implementing the structure itself. Operations on the structure contents are restricted to functions implemented in the same source file as the full structure definition, the desired behaviour.
+
+#+begin_src c
+// coord.c
+#include "coord.h"
+#include <stdio.h>
+#include <stdlib.h>
+struct coord_S_ {
+    int x;
+    int y;
+};
+coord * new_coord(int x, int y) {
+    coord * new = (coord *) malloc(sizeof(coord));
+    new->x = x;
+    new->y = y;
+    return new;
+}; 
+void print_coord(coord * self) {
+    printf("(%d, %d)\n", self->x, self->y);
+}
+void del_coord(coord * self) {
+    free(self);
+}
+#+end_src
+
+Adopting this approach necessitates the dynamic allocation of the /opaque/ type. It is impossible to create a new structure variable automatically outside the type implementation, as the type definition is incomplete and has no size.
+
+#+begin_src c
+// main.c
+#include "coord.h"
+int main() {
+    // coord a; // not valid, incomplete type definition
+    coord * a = new_coord(3,2);
+    print_coord(a);
+    del_coord(a);
+}
+#+end_src
+
+** Generic Polymorphic Type
+
+Already discussed is the absence of object oriented features from the C language. For the purposes of implementing data structures, it is helpful to have a uniform /object/ or /item/ type, which can itself contain data items of various different types and has a set of useful operations. A very simple solution is a =struct=, containing a =union= and an =enum= variable. The union is an area of memory large enough to store the biggest member and hence every smaller member, although not at the same time. The enumeration is a convenient way to determine the type of the data value and hence how many bytes to read.
+
+#+begin_src c
+union item_type_U_ {
+    int    int_val;
+    float  flt_val;
+    double dbl_val;
+    char   char_val;
+    char * str_val;
+    void * ptr_val;
+};
+
+enum item_type_E_ {
+    Integer,
+    Double,
+    Float,
+    Character,
+    String,
+    Pointer
+};
+
+struct item_T {
+    union item_type_U_ val;
+    enum item_type_E_ type;
+    // ...
+};
+#+end_src
+
+Type aliases make driver code and function signatures more concise. Additionally, type aliases can be forward declared to hide the structure definition if required. 
+
+#+begin_src c
+typedef union item_type_U_ item_val;
+typedef enum item_type_E_ item_type;
+typedef struct item_T item;
+#+end_src
+
+To complete this type, a set of operations is provided. As the item type defined here is reasonably large, it is practical to pass and return a pointer instead of passing by value. Considering some setup is required on the fields of the structure, it is suited towards dynamic allocation via a constructor. Therefore =struct item_T *=, or =item *= acts as the desired general purpose type. 
+
+#+begin_src c
+item * new_item(item_type type, ...);
+void del_item(item * self);
+void modify_item(item * self, item_type type, ...);
+bool compare_item(item * self, item * other);
+void print_item(item * self);
+#+end_src
+
+For the sake of practicality the structure definition should remain visible, enabling an item to be stored in place, without the need to be allocated or dereferenced. A type designed to be allocated dynamically presents many difficulties, consistent with the common drawbacks of explicit memory management, namely: ownership, type safety, memory leaks, mutability etc.
+
+* Evaluation
+
+Data structures, being a format for representing data in such a way that accessing it according to the needs of the program is efficient, are well implemented in C. The ability to address, read and copy bytes of memory explicitly and arbitrarily make the language one of the best for this type of programming. Programming according to the principles of abstraction, modularity and reliability on the other hand is significantly more difficult; a language providing more features and conforming to more established design patterns may be more suitable to this end.
