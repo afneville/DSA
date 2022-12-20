@@ -36,6 +36,8 @@ static void set_hash(item_p self) {
 }
 
 static void item_init_dynamic_members(item_p self) {
+    // reset dynamic components of the item according to current state
+    self->dync_memb = true;
     self->repr = (char *) malloc(sizeof(char) * DEFAULTREPRSIZE);
     self->repr_len = DEFAULTREPRSIZE;
     set_repr(self);
@@ -43,15 +45,17 @@ static void item_init_dynamic_members(item_p self) {
 }
 
 static void item_dealloc_dynamic_members(item_p self) {
+    // set dynamic components of the item to null condition
+    self->dync_memb = false;
     self->repr_len = 0;
     if (self->repr != NULL)
         free(self->repr);
     self->repr = NULL;
-    self->hash = 0;
+    self->hash = NULLHASH;
 }
 
 // public funcitons
-item item_init(item_type type, ...) {
+item item_new(item_type type, ...) {
     va_list args;
     va_start(args, 1);
     item self;
@@ -67,12 +71,11 @@ item item_init(item_type type, ...) {
     }
     va_end(args);
     self.repr = NULL;
-    self.repr_len = 0;
-    self.hash = 0;
+    item_dealloc_dynamic_members(&self);
     return self;
 }
 
-item_p item_new(item_type type, ...) {
+item_p item_new_p(item_type type, ...) {
     va_list args;
     va_start(args, 1);
     item_p self = (item_p) malloc(sizeof(struct item_T_));
@@ -91,12 +94,12 @@ item_p item_new(item_type type, ...) {
     return self;
 }
 
-void item_del(item_p self) {
+void item_del_p(item_p self) {
     item_dealloc_dynamic_members(self);
     free(self);
 }
 
-item_p item_clone(item_p self) {
+item_p item_clone_p(item_p self) {
     item_p new = (item_p) malloc(sizeof(item));
     memcpy(new, self, sizeof(item));
     item_init_dynamic_members(new);
@@ -159,7 +162,7 @@ char * item_repr(item_p self) {
 }
 
 unsigned long item_hash(item_p self) {
-    if (self->repr != NULL && self->hash != 0) {
+    if (self->repr != NULL && self->hash != NULLHASH) {
         return self->hash;
     }
     item_init_dynamic_members(self);

@@ -6,15 +6,15 @@
 int main() {
     item_p * a = (item_p *) malloc(sizeof(item_p) * LOCALLEN);
     int i = 0;
-    a[i++] = item_new(Integer, 4);
-    a[i++] = item_new(Integer, 4);
-    a[i++] = item_new(Integer, 5);
-    a[i++] = item_new(Float, 3.2);
-    a[i++] = item_new(Character, 't');
-    a[i++] = item_new(String, "Hello!");
-    a[i++] = item_new(String, "Hello!");
-    a[i++] = item_new(String, "Hi!");
-    a[i++] = item_new(String, "This is quite a long string.");
+    a[i++] = item_new_p(Integer, 4);
+    a[i++] = item_new_p(Integer, 4);
+    a[i++] = item_new_p(Integer, 5);
+    a[i++] = item_new_p(Float, 3.2);
+    a[i++] = item_new_p(Character, 't');
+    a[i++] = item_new_p(String, "Hello!");
+    a[i++] = item_new_p(String, "Hello!");
+    a[i++] = item_new_p(String, "Hi!");
+    a[i++] = item_new_p(String, "This is quite a long string.");
 
     printf("%d\n", item_compare(a[5], a[6]));
     printf("%d\n", item_compare(a[5], a[7]));
@@ -28,18 +28,19 @@ int main() {
     printf("[");
     for (int i = 0; i < LOCALLEN; i++) {
         item_print(a[i]);
-        item_del(a[i]);
+        item_del_p(a[i]);
         printf(", ");
     }
     printf("\b\b]\n");
     free(a);
 
-    item b = item_init(Integer, 1234);
+    item b = item_new(Integer, 1234);
     item_print(&b);
     char * string1 = item_repr(&b);
     item_modify(&b, Character, 'T');
     char * string2 = item_repr(&b);
-
+    item_p c = item_clone_p(&b);
+    printf("\n%s\n", item_repr(c));
     printf("\n%s %s\n", string1, string2);
     free(string1);
     free(string2);

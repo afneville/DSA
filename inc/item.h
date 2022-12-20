@@ -2,6 +2,7 @@
 #define item_H
 #include <stdbool.h>
 #define DEFAULTREPRSIZE 6
+#define NULLHASH 0
     
 // type aliases
 typedef union item_type_U_ item_val;
@@ -34,15 +35,17 @@ struct item_T_ {
     char * repr;
     int repr_len;
     unsigned long hash;
+    bool dync_memb;
 };
 
 // allocation / deallocation
-item item_init(item_type type, ...);
-item_p item_new(item_type type, ...);
-void item_del(item_p self);
+item item_new(item_type type, ...);
+//dynamic
+item_p item_new_p(item_type type, ...);
+void item_del_p(item_p self);
+item_p item_clone_p(item_p self);
 
 // public functions
-item_p item_clone(item_p self);
 void item_modify(item_p self, item_type type, ...);
 bool item_compare(item_p self, item_p other);
 void item_print(item_p self);
