@@ -6,26 +6,12 @@
       "./inc",
       "-c",
       "-o",
-      "obj/dict.o",
-      "src/dict.c"
+      "obj/item.o",
+      "src/item.c"
     ],
-    "directory": "/home/alex/repos/DSA",
-    "file": "/home/alex/repos/DSA/src/dict.c",
-    "output": "/home/alex/repos/DSA/obj/dict.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/gcc",
-      "-I",
-      "./inc",
-      "-c",
-      "-o",
-      "obj/graph.o",
-      "src/graph.c"
-    ],
-    "directory": "/home/alex/repos/DSA",
-    "file": "/home/alex/repos/DSA/src/graph.c",
-    "output": "/home/alex/repos/DSA/obj/graph.o"
+    "directory": "/home/alex/vcon/DSA",
+    "file": "/home/alex/vcon/DSA/src/item.c",
+    "output": "/home/alex/vcon/DSA/obj/item.o"
   },
   {
     "arguments": [
@@ -37,68 +23,22 @@
       "obj/list.o",
       "src/list.c"
     ],
-    "directory": "/home/alex/repos/DSA",
-    "file": "/home/alex/repos/DSA/src/list.c",
-    "output": "/home/alex/repos/DSA/obj/list.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/gcc",
-      "-I",
-      "./inc",
-      "-c",
-      "-o",
-      "obj/logger.o",
-      "src/logger.c"
-    ],
-    "directory": "/home/alex/repos/DSA",
-    "file": "/home/alex/repos/DSA/src/logger.c",
-    "output": "/home/alex/repos/DSA/obj/logger.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/gcc",
-      "-I",
-      "./inc",
-      "-c",
-      "-o",
-      "obj/object.o",
-      "src/object.c"
-    ],
-    "directory": "/home/alex/repos/DSA",
-    "file": "/home/alex/repos/DSA/src/object.c",
-    "output": "/home/alex/repos/DSA/obj/object.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/gcc",
-      "-I",
-      "./inc",
-      "-c",
-      "-o",
-      "obj/primes.o",
-      "src/primes.c"
-    ],
-    "directory": "/home/alex/repos/DSA",
-    "file": "/home/alex/repos/DSA/src/primes.c",
-    "output": "/home/alex/repos/DSA/obj/primes.o"
+    "directory": "/home/alex/vcon/DSA",
+    "file": "/home/alex/vcon/DSA/src/list.c",
+    "output": "/home/alex/vcon/DSA/obj/list.o"
   },
   {
     "arguments": [
       "/usr/bin/gcc",
       "-c",
-      "obj/dict.o",
-      "obj/graph.o",
+      "obj/item.o",
       "obj/list.o",
-      "obj/logger.o",
-      "obj/object.o",
-      "obj/primes.o",
       "-o",
-      "bin/test",
-      "main/test.c"
+      "bin/item_test",
+      "run/item_test.c"
     ],
-    "directory": "/home/alex/repos/DSA",
-    "file": "/home/alex/repos/DSA/main/test.c",
-    "output": "/home/alex/repos/DSA/bin/test"
+    "directory": "/home/alex/vcon/DSA",
+    "file": "/home/alex/vcon/DSA/run/item_test.c",
+    "output": "/home/alex/vcon/DSA/bin/item_test"
   }
 ]

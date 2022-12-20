@@ -6,7 +6,7 @@
 // type aliases
 typedef union item_type_U_ item_val;
 typedef enum item_type_E_ item_type;
-typedef struct item_T item;
+typedef struct item_type_T_ * item;
 
 // type definitions
 union item_type_U_ {
@@ -27,7 +27,7 @@ enum item_type_E_ {
     Pointer
 };
 
-struct item_T {
+struct item_type_T_ {
     item_val val;
     item_type type;
     char * repr;
@@ -36,14 +36,14 @@ struct item_T {
 };
 
 // allocation / deallocation
-item * new_item(item_type type, ...);
-void del_item(item * self);
+item item_new(item_type type, ...);
+void item_del(item self);
 
 // public functions
-void modify_item(item * self, item_type type, ...);
-bool compare_item(item * self, item * other);
-void print_item(item * self);
-char * repr_item(item * self);
-unsigned long hash_item(item * self);
+void item_modify(item self, item_type type, ...);
+bool item_compare(item self, item other);
+void item_print(item self);
+char * item_repr(item self);
+unsigned long item_hash(item self);
 
 #endif // item_H

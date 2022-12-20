@@ -8,25 +8,25 @@ Implementation of various important data structures and algorithms in the C lang
 For many small to medium size C projects, it is very convenient to split source files across three sub-directories, according to their purpose. =./inc/= is for header files, =./src/= is for generic source files, and =./run/= is for source files for which an executable should be generated.
 
 #+begin_src text
- .
-├──   bin/
-│  └──  test
-├──   inc/
-│  ├──  item.h
-│  └──  list.h
-├──   obj/
-│  ├──  item.o
-│  └──  list.o
-├──   run/
-│  └──  test.c
-├──   src/
-│  ├──  item.c
-│  ├──  list.c
-│  └──  tree.c
-├──  .gitignore
-├──  compile_commands.json
-├──  makefile
-└──  README.org
+./
+├──bin/
+│  └──test
+├──inc/
+│  ├──item.h
+│  └──list.h
+├──obj/
+│  ├──item.o
+│  └──list.o
+├──run/
+│  └──test.c
+├── src/
+│  ├──item.c
+│  ├──list.c
+│  └──tree.c
+├──.gitignore
+├──compile_commands.json
+├──makefile
+└──README.org
 #+end_src
 
 The project root directory contains the makefile. =compile_commands.json= exists for language server configuration, GCC is used in the makefile. The clean target of make will fully remove the binary and object file directories. Fully rebuilding the project in a single command:
@@ -156,17 +156,17 @@ Type aliases make driver code and function signatures more concise. Additionally
 #+begin_src c
 typedef union item_type_U_ item_val;
 typedef enum item_type_E_ item_type;
-typedef struct item_T item;
+typedef struct item_T * item;
 #+end_src
 
-To complete this type, a set of operations is provided. As the item type defined here is reasonably large, it is practical to pass and return a pointer instead of passing by value. Considering some setup is required on the fields of the structure, it is suited towards dynamic allocation via a constructor. Therefore =struct item_T *=, or =item *= acts as the desired general purpose type. 
+To complete this type, a set of operations is provided. As the item type defined here is reasonably large, it is practical to pass and return a pointer instead of passing by value. Considering some setup is required on the fields of the structure, it is suited towards dynamic allocation via a constructor. Therefore =struct item_T *=, or =item= acts as the desired general purpose type. 
 
 #+begin_src c
-item * new_item(item_type type, ...);
-void del_item(item * self);
-void modify_item(item * self, item_type type, ...);
-bool compare_item(item * self, item * other);
-void print_item(item * self);
+item new_item(item_type type, ...);
+void del_item(item self);
+void modify_item(item self, item_type type, ...);
+bool compare_item(item self, item other);
+void print_item(item self);
 #+end_src
 
 For the sake of practicality the structure definition should remain visible, enabling an item to be stored in place, without the need to be allocated or dereferenced. A type designed to be allocated dynamically presents many difficulties, consistent with the common drawbacks of explicit memory management, namely: ownership, type safety, memory leaks, mutability etc.

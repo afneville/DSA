@@ -14,7 +14,7 @@ unsigned long hash_str_f_(char *str){
 
 // private functions
 
-void set_repr(item * self) {
+void set_repr(item self) {
     int repr_len;
     switch ( self->type ) {
         case Integer: repr_len = snprintf(self->repr, self->repr_len, "%d", self->val.int_val); break;
@@ -32,16 +32,16 @@ void set_repr(item * self) {
     }
 }
 
-void set_hash(item * self) {
+void set_hash(item self) {
     self->hash = hash_str_f_(self->repr);
 }
 
 // public funcitons
 
-item * new_item(item_type type, ...) {
+item item_new(item_type type, ...) {
     va_list args;
     va_start(args, 1);
-    item * self = (item *) malloc(sizeof(item));
+    item self = (item) malloc(sizeof(struct item_type_T_));
     self->type = type;
     switch ( self->type ) {
         case Integer: self->val.int_val = va_arg(args, int); break;
@@ -60,28 +60,28 @@ item * new_item(item_type type, ...) {
     return self;
 }
 
-void del_item(item * self) {
+void item_del(item self) {
     free(self->repr);
     free(self);
 }
 
-void modify_item(item * ptr, item_type type, ...) {
+void item_modify(item self, item_type type, ...) {
     va_list args;
     va_start(args, 1);
-    ptr->type = type;
-    switch ( ptr->type ) {
-        case Integer: ptr->val.int_val = va_arg(args, int); break;
-        case Double: ptr->val.dbl_val = va_arg(args, double); break;
-        case Float: ptr->val.flt_val = (float) va_arg(args, double); break;
-        case Character: ptr->val.char_val = (char) va_arg(args, int); break;
-        case String: ptr->val.str_val = va_arg(args, char *); break;
-        case Pointer: ptr->val.ptr_val = va_arg(args, void *); break;
+    self->type = type;
+    switch ( self->type ) {
+        case Integer: self->val.int_val = va_arg(args, int); break;
+        case Double: self->val.dbl_val = va_arg(args, double); break;
+        case Float: self->val.flt_val = (float) va_arg(args, double); break;
+        case Character: self->val.char_val = (char) va_arg(args, int); break;
+        case String: self->val.str_val = va_arg(args, char *); break;
+        case Pointer: self->val.ptr_val = va_arg(args, void *); break;
         default: break;
     }
     va_end(args);
 }
 
-bool compare_item(item * self, item * other) {
+bool item_compare(item self, item other) {
     if (self->type != other->type)
         return false;
     switch ( self->type ) {
@@ -95,15 +95,15 @@ bool compare_item(item * self, item * other) {
     }
 }
 
-void print_item(item * self) {
+void item_print(item self) {
     printf("%s", self->repr);
 }
 
-char * repr_item(item * self) {
+char * item_repr(item self) {
     return self->repr;
 }
 
-unsigned long hash_item(item * self) {
+unsigned long item_hash(item self) {
     return self->hash;
 }
 
