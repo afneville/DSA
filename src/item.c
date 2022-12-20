@@ -3,8 +3,9 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
+#include <sys/types.h>
 
-unsigned long hash_str_f_(char *str){
+static unsigned long hash_str_f_(char *str){
     unsigned long hash = 5381;
     int c;
     while ((c = *str++))
@@ -12,9 +13,7 @@ unsigned long hash_str_f_(char *str){
     return hash;
 }
 
-// private functions
-
-void set_repr(item self) {
+static void set_repr(item_p self) {
     int repr_len;
     switch ( self->type ) {
         case Integer: repr_len = snprintf(self->repr, self->repr_len, "%d", self->val.int_val); break;
@@ -32,40 +31,79 @@ void set_repr(item self) {
     }
 }
 
-void set_hash(item self) {
+static void set_hash(item_p self) {
     self->hash = hash_str_f_(self->repr);
 }
 
-// public funcitons
-
-item item_new(item_type type, ...) {
-    va_list args;
-    va_start(args, 1);
-    item self = (item) malloc(sizeof(struct item_type_T_));
-    self->type = type;
-    switch ( self->type ) {
-        case Integer: self->val.int_val = va_arg(args, int); break;
-        case Double: self->val.dbl_val = va_arg(args, double); break;
-        case Float: self->val.flt_val = (float) va_arg(args, double); break;
-        case Character: self->val.char_val = (char) va_arg(args, int); break;
-        case String: self->val.str_val = va_arg(args, char *); break;
-        case Pointer: self->val.ptr_val = va_arg(args, void *); break;
-        default: break;
-    }
-    va_end(args);
+static void item_init_dynamic_members(item_p self) {
     self->repr = (char *) malloc(sizeof(char) * DEFAULTREPRSIZE);
     self->repr_len = DEFAULTREPRSIZE;
     set_repr(self);
     set_hash(self);
+}
+
+static void item_dealloc_dynamic_members(item_p self) {
+    self->repr_len = 0;
+    if (self->repr != NULL)
+        free(self->repr);
+    self->repr = NULL;
+    self->hash = 0;
+}
+
+// public funcitons
+item item_init(item_type type, ...) {
+    va_list args;
+    va_start(args, 1);
+    item self;
+    self.type = type;
+    switch ( self.type ) {
+        case Integer: self.val.int_val = va_arg(args, int); break;
+        case Double: self.val.dbl_val = va_arg(args, double); break;
+        case Float: self.val.flt_val = (float) va_arg(args, double); break;
+        case Character: self.val.char_val = (char) va_arg(args, int); break;
+        case String: self.val.str_val = va_arg(args, char *); break;
+        case Pointer: self.val.ptr_val = va_arg(args, void *); break;
+        default: break;
+    }
+    va_end(args);
+    self.repr = NULL;
+    self.repr_len = 0;
+    self.hash = 0;
     return self;
 }
 
-void item_del(item self) {
-    free(self->repr);
+item_p item_new(item_type type, ...) {
+    va_list args;
+    va_start(args, 1);
+    item_p self = (item_p) malloc(sizeof(struct item_T_));
+    self->type = type;
+    switch ( self->type ) {
+        case Integer: self->val.int_val = va_arg(args, int); break;
+        case Double: self->val.dbl_val = va_arg(args, double); break;
+        case Float: self->val.flt_val = (float) va_arg(args, double); break;
+        case Character: self->val.char_val = (char) va_arg(args, int); break;
+        case String: self->val.str_val = va_arg(args, char *); break;
+        case Pointer: self->val.ptr_val = va_arg(args, void *); break;
+        default: break;
+    }
+    va_end(args);
+    item_init_dynamic_members(self);
+    return self;
+}
+
+void item_del(item_p self) {
+    item_dealloc_dynamic_members(self);
     free(self);
 }
 
-void item_modify(item self, item_type type, ...) {
+item_p item_clone(item_p self) {
+    item_p new = (item_p) malloc(sizeof(item));
+    memcpy(new, self, sizeof(item));
+    item_init_dynamic_members(new);
+    return new;
+}
+
+void item_modify(item_p self, item_type type, ...) {
     va_list args;
     va_start(args, 1);
     self->type = type;
@@ -79,9 +117,13 @@ void item_modify(item self, item_type type, ...) {
         default: break;
     }
     va_end(args);
+    if (self->repr != NULL) {
+        free(self->repr);
+        item_init_dynamic_members(self);
+    }
 }
 
-bool item_compare(item self, item other) {
+bool item_compare(item_p self, item_p other) {
     if (self->type != other->type)
         return false;
     switch ( self->type ) {
@@ -95,15 +137,33 @@ bool item_compare(item self, item other) {
     }
 }
 
-void item_print(item self) {
+void item_print(item_p self) {
+    if (self->repr != NULL) {
+        printf("%s", self->repr);
+        return;
+    }
+    item_init_dynamic_members(self);
     printf("%s", self->repr);
+    item_dealloc_dynamic_members(self);
 }
 
-char * item_repr(item self) {
-    return self->repr;
+char * item_repr(item_p self) {
+    if (self->repr != NULL) {
+        return self->repr;
+    }
+    item_init_dynamic_members(self);
+    char * rv = self->repr;
+    self->repr = NULL;
+    item_dealloc_dynamic_members(self);
+    return rv;
 }
 
-unsigned long item_hash(item self) {
-    return self->hash;
+unsigned long item_hash(item_p self) {
+    if (self->repr != NULL && self->hash != 0) {
+        return self->hash;
+    }
+    item_init_dynamic_members(self);
+    ulong rv = self->hash;
+    item_dealloc_dynamic_members(self);
+    return rv;
 }
-

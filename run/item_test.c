@@ -4,7 +4,7 @@
 #define LOCALLEN 9
 
 int main() {
-    item * a = (item *) malloc(sizeof(item) * LOCALLEN);
+    item_p * a = (item_p *) malloc(sizeof(item_p) * LOCALLEN);
     int i = 0;
     a[i++] = item_new(Integer, 4);
     a[i++] = item_new(Integer, 4);
@@ -33,6 +33,16 @@ int main() {
     }
     printf("\b\b]\n");
     free(a);
+
+    item b = item_init(Integer, 1234);
+    item_print(&b);
+    char * string1 = item_repr(&b);
+    item_modify(&b, Character, 'T');
+    char * string2 = item_repr(&b);
+
+    printf("\n%s %s\n", string1, string2);
+    free(string1);
+    free(string2);
 
     return 0;
 }
