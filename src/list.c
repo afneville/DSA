@@ -124,14 +124,138 @@ void llist_del(llist * self) {
     free(self);
 }
 
-int  llist_append(llist * self, item element);
-int  llist_prepend(llist * self, item element);
-int  llist_insert(llist * self, int index, item element);
-item llist_access(llist * self, int index);
-item llist_remove(llist * self, int index);
-item llist_update(llist * self, int index, item element);
-int  llist_find(llist * self, item element);
-bool llist_contains(llist * self, item element);
+int llist_append(llist * self, item element) {
+    llist_node * new_node = (llist_node *) malloc(sizeof(llist_node));
+    new_node->next = NULL;
+    new_node->val = element;
+    if (self->size == 0) {
+        new_node->prev = NULL;
+        self->start = new_node;
+    } else {
+        new_node->prev = self->end;
+        self->end->next = new_node;
+    }
+    self->end = new_node;
+    int index = (self->size)++;
+    return index;
+}
+
+int llist_prepend(llist * self, item element) {
+    llist_node * new_node = (llist_node *) malloc(sizeof(llist_node));
+    new_node->val = element;
+    new_node->prev = NULL;
+    if (self->size == 0) {
+        new_node->next = NULL;
+        self->end = new_node;
+    } 
+    else {
+        new_node->next = self->start;
+        self->start->prev = new_node;
+    }
+    self->start = new_node;
+    ++(self->size);
+    return 0;
+}
+
+int llist_insert(llist * self, int index, item element) {
+    if (index >= self->size) return llist_append(self, element);
+    if (index < 0) return -1; 
+    if (index == 0) return llist_prepend(self, element);
+
+    llist_node * new_node = (llist_node *) malloc(sizeof(llist_node));
+    new_node->val = element;
+    int i = 0;
+    llist_node * ptr = self->start;
+    while (i++ < index - 1) {
+        ptr = ptr->next;
+    }
+    new_node->prev = ptr;
+    new_node->next = ptr->next;
+    new_node->next->prev = new_node;
+    ptr->next = new_node;
+    ++(self->size);
+    return index;
+}
+
+item llist_access(llist * self, int index) {
+    if (index < 0 || index >= self->size) { 
+        fprintf(stderr, "\nList index out of range.\n");
+        exit(EXIT_FAILURE);
+    }
+    int i = 0;
+    llist_node * ptr = self->start;
+    while (i++ < index) {
+        ptr = ptr->next;
+    }
+    return ptr->val;
+}
+
+item llist_remove(llist * self, int index) {
+    if (index < 0 || index >= self->size) { 
+        fprintf(stderr, "\nList index out of range.\n");
+        exit(EXIT_FAILURE);
+    }
+    llist_node * ptr;
+    item rv;
+    if (index == 0) {
+        ptr = self->start;
+        if (self->size == 1) {
+            self->start = NULL;
+            self->end = NULL;
+        } else {
+            self->start = self->start->next;
+            self->start->prev = NULL;
+        }
+    } else if (index == self->size -1) {
+        ptr = self->end;
+        self->end = self->end->prev;
+        self->end->next = NULL;
+    } else {
+        int i = 0;
+        ptr = self->start;
+        while (i++ < index) {
+            ptr = ptr->next;
+        }
+        ptr->prev->next = ptr->next;
+        ptr->next->prev = ptr->prev;
+    }
+    rv = ptr->val;
+    free(ptr);
+    --(self->size);
+    return rv;
+}
+
+item llist_update(llist * self, int index, item element) {
+    if (index < 0 || index >= self->size) { 
+        fprintf(stderr, "\nList index out of range.\n");
+        exit(EXIT_FAILURE);
+    }
+    int i = 0;
+    llist_node * ptr = self->start;
+    while (i++ < index) {
+        ptr = ptr->next;
+    }
+    ptr->val = element;
+    return ptr->val;
+}
+
+int llist_find(llist * self, item element) {
+    int rv = -1, i = 0;
+    llist_node * ptr = self->start;
+    while(ptr) {
+        if (item_compare(&ptr->val, &element)) {
+            rv = i;
+            break;
+        }
+        i++;
+        ptr = ptr->next;
+    }
+    return rv;
+};
+
+bool llist_contains(llist * self, item element) {
+    return llist_find(self, element) >= 0;
+}
 
 // alist
 
@@ -148,11 +272,11 @@ void alist_del(alist * self) {
     free(self);
 }
 
-int  alist_append(alist * self, item element);
-int  alist_prepend(alist * self, item element);
-int  alist_insert(alist * self, int index, item element);
-item alist_access(alist * self, int index);
-item alist_remove(alist * self, int index);
-item alist_update(alist * self, int index, item element);
-int  alist_find(alist * self, item element);
-bool alist_contains(alist * self, item element);
+int  alist_append(alist * self, item element) { return -1; };
+int  alist_prepend(alist * self, item element){ return -1; };
+int  alist_insert(alist * self, int index, item element){ return -1; };
+item alist_access(alist * self, int index) {return item_new(Integer, -1);};
+item alist_remove(alist * self, int index) {return item_new(Integer, -1);};
+item alist_update(alist * self, int index, item element) {return item_new(Integer, -1);};
+int  alist_find(alist * self, item element){ return -1; };
+bool alist_contains(alist * self, item element){ return 0; };
