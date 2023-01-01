@@ -26,10 +26,11 @@ struct list_T_ {
    item (* update)   (struct list_T_ * self, int index, item element);
    int  (* find)     (struct list_T_ * self, item element);
    bool (* contains) (struct list_T_ * self, item element);
+   int  (* size)     (struct list_T_ * self);
 };
 
 typedef struct llist_node_T_ {
-    item val;
+    void * val;
     struct llist_node_T_ * next;
     struct llist_node_T_ * prev;
 } llist_node;
@@ -41,7 +42,7 @@ typedef struct llist_T_ {
 } llist;
 
 struct alist_T_ {
-    item_p array;
+    void ** array;
     int size;
     int capacity;
 };
@@ -57,29 +58,30 @@ item list_remove(list * self, int index);
 item list_update(list * self, int index, item element);
 int  list_find(list * self, item element);
 bool list_contains(list * self, item element);
+int  list_size(list * self);
 
 //linked list
 llist * llist_new();
 void llist_del(llist * self);
-int  llist_append(llist * self, item element);
-int  llist_prepend(llist * self, item element);
-int  llist_insert(llist * self, int index, item element);
-item llist_access(llist * self, int index);
-item llist_remove(llist * self, int index);
-item llist_update(llist * self, int index, item element);
-int  llist_find(llist * self, item element);
-bool llist_contains(llist * self, item element);
+int  llist_append(llist * self, void * element);
+int  llist_prepend(llist * self, void * element);
+int  llist_insert(llist * self, int index, void * element);
+void * llist_access(llist * self, int index);
+void * llist_remove(llist * self, int index);
+void * llist_update(llist * self, int index, void * element);
+int  llist_find(llist * self, void * element);
+bool llist_contains(llist * self, void * element);
 
 // array list
 alist * alist_new();
 void alist_del(alist * self);
-int  alist_append(alist * self, item element);
-int  alist_prepend(alist * self, item element);
-int  alist_insert(alist * self, int index, item element);
-item alist_access(alist * self, int index);
-item alist_remove(alist * self, int index);
-item alist_update(alist * self, int index, item element);
-int  alist_find(alist * self, item element);
-bool alist_contains(alist * self, item element);
+int  alist_append(alist * self, void * element);
+int  alist_prepend(alist * self, void * element);
+int  alist_insert(alist * self, int index, void * element);
+void * alist_access(alist * self, int index);
+void * alist_remove(alist * self, int index);
+void * alist_update(alist * self, int index, void * element);
+int  alist_find(alist * self, void * element);
+bool alist_contains(alist * self, void * element);
 
 #endif // LIST_H

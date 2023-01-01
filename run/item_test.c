@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "../inc/item.h"
 #define LOCALLEN 9
 
@@ -36,14 +37,15 @@ int main() {
 
     item b = item_new(Integer, 1234);
     item_print(&b);
-    char * string1 = item_repr(&b);
+    char * string1 = item_repr(&b); // 1234
     item_modify(&b, Character, 'T');
-    char * string2 = item_repr(&b);
+    char * string2 = item_repr(&b); // 'T'
     item_p c = item_clone_p(&b);
     printf("\n%s\n", item_repr(c));
-    printf("\n%s %s\n", string1, string2);
+    printf("%s %s\n", string1, string2);
     free(string1);
     free(string2);
+    free(c);
 
     return 0;
 }
