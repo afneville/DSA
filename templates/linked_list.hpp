@@ -14,32 +14,66 @@ private:
         void *operator new(std::size_t);
         void operator delete(void *, std::size_t);
     };
-    Node *head;
-    Node *tail;
+    Node *head {nullptr};
+    Node *tail {nullptr};
     int size{0};
 
 public:
     LinkedList();
     LinkedList(std::initializer_list<T>);
+    LinkedList(const LinkedList<T>&);
+    LinkedList(const LinkedList<T>&&);
+    LinkedList<T>& operator=(const LinkedList<T>&);
+    LinkedList<T>& operator=(const LinkedList<T>&&);
     ~LinkedList();
     void print() const;
+    unsigned int length() const;
     void append(T);
     void prepend(T);
     void insert(int, T);
     T &operator[](unsigned int);
 };
 
-template <typename T> LinkedList<T>::LinkedList() {
-    head = nullptr;
-    tail = nullptr;
-}
+// Default Constructor
+template <typename T> LinkedList<T>::LinkedList() { }
 
+// Initialiser List Constructor
 template <typename T> LinkedList<T>::LinkedList(std::initializer_list<T> l) {
-    head = nullptr;
-    tail = nullptr;
     for (auto i : l) {
         append(i);
     }
+}
+
+// Copy Constructor
+template <typename T> LinkedList<T>::LinkedList(const LinkedList<T>& source) {
+    for(int i {0}; i < lengthOf(source); i++) {
+        append(source[i]);
+    }
+}
+
+// Move Constructor
+template <typename T> LinkedList<T>::LinkedList(const LinkedList<T>&& source) {
+    head = source.head;
+    tail = source.tail;
+    source.head = nullptr;
+    source.tail = nullptr;
+    source.size = 0;
+}
+
+// Copy Assignment
+template <typename T> LinkedList<T>& LinkedList<T>::operator=(const LinkedList<T>& source) {
+    for(int i {0}; i < lengthOf(source); i++) {
+        append(source[i]);
+    }
+}
+
+// Move Assignment
+template <typename T> LinkedList<T>& LinkedList<T>::operator=(const LinkedList<T>&& source) {
+    head = source.head;
+    tail = source.tail;
+    source.head = nullptr;
+    source.tail = nullptr;
+    source.size = 0;
 }
 
 template <typename T> void *LinkedList<T>::Node::operator new(std::size_t) {
@@ -87,6 +121,10 @@ template <typename T> T &LinkedList<T>::operator[](unsigned int index) {
     }
 }
 
+template <typename T> unsigned int LinkedList<T>::length() const {
+    return size;
+}
+
 template <typename T> void LinkedList<T>::print() const {
     Node *tmp = head;
     if (tmp) {
@@ -98,15 +136,10 @@ template <typename T> void LinkedList<T>::print() const {
 }
 
 template <typename T> LinkedList<T>::~LinkedList() {
-    Node *tmp;
-    if (head) {
-        tmp = head->next;
-        delete head;
-    }
-    for (auto i = tmp; i; i = i->next) {
-        tmp = i->next;
+    for (auto i = head; i;) {
+        head = i->next;
         delete i;
-        i = tmp;
+        i = head;
     }
 }
 
@@ -114,4 +147,8 @@ template <typename T>
 std::ostream &operator<<(std::ostream &o, const LinkedList<T> &l) {
     l.print();
     return o;
+}
+
+template <typename T> unsigned int lengthOf(LinkedList<T> &l) {
+    return l.length();
 }
