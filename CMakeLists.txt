@@ -14,28 +14,20 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(googletest)
 
-add_executable(
-    hello_test
-    tests/hello_test.cpp
-)
-
-target_link_libraries(
-    hello_test
-    GTest::gtest_main
-)
 
 add_executable(
-    list_test
-    ./tests/list_test.cpp
+    linked_list_test
+    ./tests/linked_list_test.cpp
 )
+foreach(test linked_list_test)
+    target_link_libraries("${test}" GTest::gtest_main)
+    target_include_directories("${test}" PUBLIC "{PROJECT_SOURCE_DIR}/templates" "${PROJECT_BINARY_DIR}")
+endforeach()
 
-#
+# target_link_libraries(
+#     linked_list_test
+#     GTest::gtest_main
+# )
+
 # include(GoogleTest)
 # gtest_discover_tests(hello_test)
-#
-# add_subdirectory(src)
-#
-# foreach(executable ItemTest ListTest)
-#     target_link_libraries("${executable}" PUBLIC src)
-#     target_include_directories("${executable}" PUBLIC "${PROJECT_SOURCE_DIR}/inc" "${PROJECT_BINARY_DIR}")
-# endforeach()
