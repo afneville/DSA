@@ -1,11 +1,9 @@
-MKDIR   := mkdir
-RMDIR   := rm -rf
 CC      := gcc
 BIN     := ./bin
 OBJ     := ./obj
 INCLUDE := ./inc
 SRC     := ./src
-APP		:= ./run
+APP  := ./run
 SRCS    := $(wildcard $(SRC)/*.c)
 APPS    := $(wildcard $(APP)/*.c)
 TESTS   := $(wildcard ./tests/*.c)
@@ -25,13 +23,13 @@ $(BIN)/%: $(APP)/%.c $(OBJS) | $(BIN)
 	$(CC) $^ -o $@ $(LDLIBS)
 
 $(BIN):
-	$(MKDIR) $@
+	mkdir $@
 
 $(OBJ):
-	$(MKDIR) $@
+	mkdir $@
 
 clean:
-	$(RMDIR) $(OBJ) $(BIN)
+	rm -rf $(OBJ) $(BIN)
 
 lspconfig:
 	bear -- make 2> /dev/null

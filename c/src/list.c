@@ -1,5 +1,5 @@
 #include "../inc/list.h"
-#include "item.h"
+#include "../inc/item.h"
 #include <stdio.h>
 #include <stdlib.h>
 #define ARRAYSIZE 2

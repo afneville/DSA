@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../inc/item.h"
+#include <item.h>
 #define LOCALLEN 9
 
 int main() {
