@@ -3,42 +3,55 @@
 #include <iostream>
 #include <stdexcept>
 
-TEST(LinkedListTest, DefaultIntialisation) {
-    LinkedList<int> l{};
+
+// Test Fixture
+template <typename T> class ListTest : public testing::Test {
+public:
+};
+
+// Type Paramaters
+using ListImplementations = ::testing::Types<LinkedList<int>>;
+TYPED_TEST_SUITE(ListTest, ListImplementations);
+
+// Tests
+TYPED_TEST(ListTest, DefaultIntialisation) {
+    TypeParam l{};
     ASSERT_EQ(lengthOf(l), 0);
 }
-TEST(LinkedListTest, ListIntialisation) {
-    LinkedList<int> l{3, 4, 5};
+
+TYPED_TEST(ListTest, ListIntialisation) {
+    TypeParam l{3, 4, 5};
     ASSERT_EQ(lengthOf(l), 3);
 }
-TEST(LinkedListTest, SubscriptOperator) {
-    LinkedList<int> l{3, 4, 5};
+
+TYPED_TEST(ListTest, SubscriptOperator) {
+    TypeParam l{3, 4, 5};
     ASSERT_EQ(l[0], 3);
     ASSERT_EQ(l[1], 4);
     ASSERT_EQ(l[2], 5);
     ASSERT_THROW(l[3], std::out_of_range);
 }
-TEST(LinkedListTest, CopyConstructor) {
-    LinkedList<int> l1{3, 4, 5};
-    LinkedList<int> l2(l1);
+TYPED_TEST(ListTest, CopyConstructor) {
+    TypeParam l1{3, 4, 5};
+    TypeParam l2(l1);
     ASSERT_EQ(l1[0], l2[0]);
     l1[0] = 6;
     ASSERT_NE(l1[0], l2[0]);
 }
 
-TEST(LinkedListTest, MoveConstructor) {
-    LinkedList<int> l1{3, 4, 5};
-    LinkedList<int> l2(std::move(l1));
+TYPED_TEST(ListTest, MoveConstructor) {
+    TypeParam l1{3, 4, 5};
+    TypeParam l2(std::move(l1));
     ASSERT_EQ(lengthOf(l2), 3);
     ASSERT_EQ(l2[0], 3);
     ASSERT_EQ(lengthOf(l1), 0);
     ASSERT_THROW(l1[0], std::out_of_range);
 }
 
-TEST(LinkedListTest, CopySwapMoveAssignment) {
-    LinkedList<int> l1{3, 4, 5};
-    LinkedList<int> l2{6, 7, 8, 9};
-    LinkedList<int> l3{10, 11, 12, 13, 14};
+TYPED_TEST(ListTest, CopySwapMoveAssignment) {
+    TypeParam l1{3, 4, 5};
+    TypeParam l2{6, 7, 8, 9};
+    TypeParam l3{10, 11, 12, 13, 14};
 
     l1 = l2;
     ASSERT_EQ(lengthOf(l1), 4);
@@ -52,8 +65,8 @@ TEST(LinkedListTest, CopySwapMoveAssignment) {
     ASSERT_THROW(l3[0], std::out_of_range);
 }
 
-TEST(LinkedListTest, AppendMethod) {
-    LinkedList<int> l1{};
+TYPED_TEST(ListTest, AppendMethod) {
+    TypeParam l1{};
     ASSERT_EQ(lengthOf(l1), 0);
     ASSERT_THROW(l1[0], std::out_of_range);
     for (auto i : {0, 1, 2, 3, 4}) {

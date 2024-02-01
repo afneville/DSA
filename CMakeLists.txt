@@ -15,10 +15,11 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(googletest)
 
 add_executable(
-    linked_list_test
-    ./tests/linked_list_test.cpp
+    list_test
+    ./tests/list_test.cpp
 )
-foreach(test linked_list_test)
+
+foreach(test list_test)
     target_link_libraries("${test}" GTest::gtest_main)
 endforeach()
 
