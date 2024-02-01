@@ -4,22 +4,22 @@
 #include <stdexcept>
 
 TEST(LinkedListTest, DefaultIntialisation) {
-    LinkedList<int> l {};
+    LinkedList<int> l{};
     ASSERT_EQ(lengthOf(l), 0);
 }
 TEST(LinkedListTest, ListIntialisation) {
-    LinkedList<int> l {3,4,5};
+    LinkedList<int> l{3, 4, 5};
     ASSERT_EQ(lengthOf(l), 3);
 }
 TEST(LinkedListTest, SubscriptOperator) {
-    LinkedList<int> l {3,4,5};
+    LinkedList<int> l{3, 4, 5};
     ASSERT_EQ(l[0], 3);
     ASSERT_EQ(l[1], 4);
     ASSERT_EQ(l[2], 5);
     ASSERT_THROW(l[3], std::out_of_range);
 }
 TEST(LinkedListTest, CopyConstructor) {
-    LinkedList<int> l1 {3,4,5};
+    LinkedList<int> l1{3, 4, 5};
     LinkedList<int> l2(l1);
     ASSERT_EQ(l1[0], l2[0]);
     l1[0] = 6;
@@ -27,7 +27,7 @@ TEST(LinkedListTest, CopyConstructor) {
 }
 
 TEST(LinkedListTest, MoveConstructor) {
-    LinkedList<int> l1 {3,4,5};
+    LinkedList<int> l1{3, 4, 5};
     LinkedList<int> l2(std::move(l1));
     ASSERT_EQ(lengthOf(l2), 3);
     ASSERT_EQ(l2[0], 3);
@@ -36,9 +36,9 @@ TEST(LinkedListTest, MoveConstructor) {
 }
 
 TEST(LinkedListTest, CopySwapMoveAssignment) {
-    LinkedList<int> l1 {3,4,5};
-    LinkedList<int> l2 {6,7,8,9};
-    LinkedList<int> l3 {10,11,12,13,14};
+    LinkedList<int> l1{3, 4, 5};
+    LinkedList<int> l2{6, 7, 8, 9};
+    LinkedList<int> l3{10, 11, 12, 13, 14};
 
     l1 = l2;
     ASSERT_EQ(lengthOf(l1), 4);
@@ -52,8 +52,16 @@ TEST(LinkedListTest, CopySwapMoveAssignment) {
     ASSERT_THROW(l3[0], std::out_of_range);
 }
 
-
-// TEST(LinkedListTest, AppendMethod) {}
-// TEST(LinkedListTest, PrependMethod) {}
-// TEST(LinkedListTest, InsertMethod) {}
-// TEST(LinkedListTest, DropMethod) {}
+TEST(LinkedListTest, AppendMethod) {
+    LinkedList<int> l1{};
+    ASSERT_EQ(lengthOf(l1), 0);
+    ASSERT_THROW(l1[0], std::out_of_range);
+    for (auto i : {0, 1, 2, 3, 4}) {
+        l1.append(i);
+        ASSERT_NO_THROW(l1[i]);
+        ASSERT_EQ(l1[i], i);
+        ASSERT_EQ(l1[i], i);
+        ASSERT_EQ(l1[i], i);
+    }
+    ASSERT_THROW(l1[5], std::out_of_range);
+}

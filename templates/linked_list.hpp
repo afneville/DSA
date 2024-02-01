@@ -3,10 +3,13 @@
 #include <ostream>
 #include <stdexcept>
 #include <type_traits>
+#include "list.hpp"
 
+#ifndef LINKED_LIST_H
+#define LINKED_LIST_H
 // Linked List Template
 
-template <typename T> class LinkedList {
+template <typename T> class LinkedList: public virtual List<T> {
 private:
     class Node {
     public:
@@ -35,8 +38,6 @@ public:
     T &operator[](unsigned int) const;
 };
 
-template <typename T> unsigned int lengthOf(LinkedList<T> &);
-
 // Default Constructor
 template <typename T> LinkedList<T>::LinkedList() {}
 
@@ -56,15 +57,9 @@ template <typename T> LinkedList<T>::LinkedList(const LinkedList<T> &source) {
 
 // Move Constructor
 template <typename T> LinkedList<T>::LinkedList(LinkedList<T> &&source) {
-    // std::swap(this->size, source.size);
-    // std::swap(this->head, source.head);
-    // std::swap(this->tail, source.tail);
-    this->size = source.size;
-    this->head = source.head;
-    this->tail = source.tail;
-    source.head = nullptr;
-    source.tail = nullptr;
-    source.size = 0;
+    std::swap(this->size, source.size);
+    std::swap(this->head, source.head);
+    std::swap(this->tail, source.tail);
 }
 
 // Copy Assignment
@@ -73,18 +68,6 @@ LinkedList<T> &LinkedList<T>::operator=(LinkedList<T> source) {
     this->swap(*this, source);
     return *this;
 }
-
-/* Move Assignment
- * Implementation not needed if using copy-swap
-template <typename T>
-LinkedList<T> &LinkedList<T>::operator=(LinkedList<T> &&source) {
-    this->head = source.head;
-    this->tail = source.tail;
-    source.head = nullptr;
-    source.tail = nullptr;
-    source.size = 0;
-    return *this;
-} */
 
 template <typename T>
 void LinkedList<T>::swap(LinkedList<T> &a, LinkedList<T> &b) {
@@ -160,12 +143,4 @@ template <typename T> LinkedList<T>::~LinkedList() {
     }
 }
 
-template <typename T>
-std::ostream &operator<<(std::ostream &o, const LinkedList<T> &l) {
-    l.print();
-    return o;
-}
-
-template <typename T> unsigned int lengthOf(LinkedList<T> &l) {
-    return l.length();
-}
+#endif // LINKED_LIST_H
