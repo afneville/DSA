@@ -1,19 +1,19 @@
+#include "list.hpp"
 #include <initializer_list>
 #include <iostream>
 #include <ostream>
 #include <stdexcept>
 #include <type_traits>
-#include "list.hpp"
 
 #ifndef LINKED_LIST_H
 #define LINKED_LIST_H
 // Linked List Template
 
-template <typename T> class LinkedList: public virtual List<T> {
+template <typename T> class LinkedList : public virtual List<T> {
 private:
     class Node {
     public:
-        Node *next;
+        Node *next{nullptr};
         T value;
         void *operator new(std::size_t);
         void operator delete(void *, std::size_t);
@@ -35,6 +35,7 @@ public:
     void append(T);
     void prepend(T);
     void insert(int, T);
+    T drop(int);
     T &operator[](unsigned int) const;
 };
 
@@ -108,17 +109,64 @@ template <typename T> void LinkedList<T>::prepend(T value) {
         tail = tmp;
     size++;
 }
-template <typename T> void LinkedList<T>::insert(int index, T value) {}
+template <typename T> void LinkedList<T>::insert(int index, T value) {
+    if (index > size) {
+        throw std::out_of_range{"List Index Out of Range"};
+        return;
+    }
+    if (index == 0) {
+        prepend(value);
+        return;
+    }
+    if (index == size) {
+        append(value);
+        return;
+    }
+    Node *tmp = head;
+    for (int i = 0; i < index - 1; i++)
+        tmp = tmp->next;
+    Node *newnode = new Node;
+    newnode->next = newnode;
+    std::swap(newnode->next, tmp->next);
+    newnode->value = value;
+    size++;
+}
+template <typename T> T LinkedList<T>::drop(int index) {
+    if (index >= size) {
+        throw std::out_of_range{"List Index Out of Range"};
+    }
+    Node *tmp = head;
+    T value;
+    if (index == 0) {
+        head = head->next;
+        value = tmp->value;
+        delete tmp;
+        if (index == size - 1) {
+            tail = nullptr;
+        }
+    } else {
+        for (int i = 0; i < index - 1; i++)
+            tmp = tmp->next;
+        value = tmp->next->value;
+        Node* old = tmp->next;
+        tmp->next = old->next;
+        delete old;
+    }
+    if (index == size - 1) {
+        tail = nullptr;
+    }
+    size--;
+    return value;
+}
 
 template <typename T> T &LinkedList<T>::operator[](unsigned int index) const {
     if (index >= size) {
         throw std::out_of_range{"List Index Out of Range"};
-    } else {
-        Node *tmp = head;
-        for (int i = 0; i < index; i++)
-            tmp = tmp->next;
-        return tmp->value;
     }
+    Node *tmp = head;
+    for (int i = 0; i < index; i++)
+        tmp = tmp->next;
+    return tmp->value;
 }
 
 template <typename T> unsigned int LinkedList<T>::length() const {
