@@ -14,7 +14,6 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(googletest)
 
-
 add_executable(
     linked_list_test
     ./tests/linked_list_test.cpp
