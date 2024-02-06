@@ -1,4 +1,5 @@
-#include "../templates/linked_list.hpp"
+#include "../templates/singly_linked_list.hpp"
+#include "../templates/doubly_linked_list.hpp"
 #include "../templates/array_list.hpp"
 #include <gtest/gtest.h>
 #include <iostream>
@@ -10,7 +11,7 @@ public:
 };
 
 // Type Paramaters
-using ListImplementations = ::testing::Types<LinkedList<int>, ArrayList<int>>;
+using ListImplementations = ::testing::Types<SinglyLinkedList<int>, DoublyLinkedList<int>, ArrayList<int>>;
 TYPED_TEST_SUITE(ListTest, ListImplementations);
 
 // Tests

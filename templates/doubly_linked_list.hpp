@@ -1,0 +1,201 @@
+#include "list.hpp"
+#include <initializer_list>
+#include <iostream>
+#include <ostream>
+#include <stdexcept>
+#include <type_traits>
+
+#ifndef DOUBLY_LINKED_LIST_H
+#define DOUBLY_LINKED_LIST_H
+
+template <typename T> class DoublyLinkedList : public virtual List<T> {
+private:
+    class Node {
+    public:
+        Node *next{nullptr};
+        Node *prev{nullptr};
+        T value;
+        void *operator new(std::size_t);
+        void operator delete(void *, std::size_t);
+    };
+    Node *head{nullptr};
+    Node *tail{nullptr};
+    int size{0};
+    void swap(DoublyLinkedList<T> &, DoublyLinkedList<T> &);
+
+public:
+    DoublyLinkedList();
+    DoublyLinkedList(std::initializer_list<T>);
+    DoublyLinkedList(const DoublyLinkedList<T> &);
+    DoublyLinkedList(DoublyLinkedList<T> &&);
+    DoublyLinkedList<T> &operator=(DoublyLinkedList<T>);
+    ~DoublyLinkedList();
+    void print() const;
+    unsigned int length() const;
+    void append(T);
+    void prepend(T);
+    void insert(int, T);
+    T drop(int);
+    T &operator[](unsigned int) const;
+};
+
+// Default Constructor
+template <typename T> DoublyLinkedList<T>::DoublyLinkedList() {}
+
+// Initialiser List Constructor
+template <typename T> DoublyLinkedList<T>::DoublyLinkedList(std::initializer_list<T> l) {
+    for (auto i : l) {
+        append(i);
+    }
+}
+
+// Copy Constructor
+template <typename T> DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList<T> &source) {
+    for (int i{0}; i < source.size; i++) {
+        this->append(source[i]);
+    }
+}
+
+// Move Constructor
+template <typename T> DoublyLinkedList<T>::DoublyLinkedList(DoublyLinkedList<T> &&source) {
+    std::swap(this->size, source.size);
+    std::swap(this->head, source.head);
+    std::swap(this->tail, source.tail);
+}
+
+// Copy Assignment
+template <typename T>
+DoublyLinkedList<T> &DoublyLinkedList<T>::operator=(DoublyLinkedList<T> source) {
+    this->swap(*this, source);
+    return *this;
+}
+
+template <typename T>
+void DoublyLinkedList<T>::swap(DoublyLinkedList<T> &a, DoublyLinkedList<T> &b) {
+    std::swap(a.size, b.size);
+    std::swap(a.head, b.head);
+    std::swap(a.tail, b.tail);
+}
+
+template <typename T> void *DoublyLinkedList<T>::Node::operator new(std::size_t) {
+    return malloc(sizeof(DoublyLinkedList::Node));
+}
+
+template <typename T>
+void DoublyLinkedList<T>::Node::operator delete(void *ptr, std::size_t) {
+    if (ptr)
+        free(ptr);
+    return;
+}
+template <typename T> void DoublyLinkedList<T>::append(T value) {
+    if (!tail) {
+        prepend(value);
+        return;
+    }
+    Node *tmp = new Node;
+    tmp->next = nullptr;
+    tmp->value = value;
+    tmp->prev = tail;
+    tail->next = tmp;
+    tail = tmp;
+    size++;
+}
+
+template <typename T> void DoublyLinkedList<T>::prepend(T value) {
+    Node *tmp = new Node;
+    tmp->next = head;
+    if (head)
+        head->prev = tmp;
+    tmp->prev = nullptr;
+    tmp->value = value;
+    head = tmp;
+    if (!tail)
+        tail = tmp;
+    size++;
+}
+template <typename T> void DoublyLinkedList<T>::insert(int index, T value) {
+    if (index > size) {
+        throw std::out_of_range{"List Index Out of Range"};
+        return;
+    }
+    if (index == 0) {
+        prepend(value);
+        return;
+    }
+    if (index == size) {
+        append(value);
+        return;
+    }
+    Node *tmp = head;
+    for (int i = 0; i < index - 1; i++)
+        tmp = tmp->next;
+    Node *newnode = new Node;
+    newnode->next = newnode;
+    newnode->prev = newnode;
+    std::swap(newnode->next, tmp->next);
+    std::swap(newnode->prev, tmp->prev);
+    newnode->value = value;
+    size++;
+}
+template <typename T> T DoublyLinkedList<T>::drop(int index) {
+    if (index >= size) {
+        throw std::out_of_range{"List Index Out of Range"};
+    }
+    Node *tmp = head;
+    T value;
+    if (index == 0) {
+        head = head->next;
+        if (head)
+            head->prev = nullptr;
+        value = tmp->value;
+        delete tmp;
+    } else {
+        for (int i = 0; i < index - 1; i++)
+            tmp = tmp->next;
+        Node* old = tmp->next;
+        value = old->value;
+        tmp->next = old->next;
+        if (old->next)
+            old->next->prev = tmp;
+        delete old;
+    }
+    if (index == size - 1) {
+        tail = nullptr;
+    }
+    size--;
+    return value;
+}
+
+template <typename T> T &DoublyLinkedList<T>::operator[](unsigned int index) const {
+    if (index >= size) {
+        throw std::out_of_range{"List Index Out of Range"};
+    }
+    Node *tmp = head;
+    for (int i = 0; i < index; i++)
+        tmp = tmp->next;
+    return tmp->value;
+}
+
+template <typename T> unsigned int DoublyLinkedList<T>::length() const {
+    return size;
+}
+
+template <typename T> void DoublyLinkedList<T>::print() const {
+    Node *tmp = head;
+    if (tmp) {
+        std::cout << tmp->value;
+    }
+    for (auto i = tmp->next; i; i = i->next) {
+        std::cout << ", " << i->value;
+    }
+}
+
+template <typename T> DoublyLinkedList<T>::~DoublyLinkedList() {
+    for (auto i = head; i;) {
+        head = i->next;
+        delete i;
+        i = head;
+    }
+}
+
+#endif // DOUBLY_LINKED_LIST_H

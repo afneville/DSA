@@ -5,11 +5,11 @@
 #include <stdexcept>
 #include <type_traits>
 
-#ifndef LINKED_LIST_H
-#define LINKED_LIST_H
-// Linked List Template
+#ifndef SINGLY_LINKED_LIST_H
+#define SINGLY_LINKED_LIST_H
+// Singly Linked List Template
 
-template <typename T> class LinkedList : public virtual List<T> {
+template <typename T> class SinglyLinkedList : public virtual List<T> {
 private:
     class Node {
     public:
@@ -21,15 +21,15 @@ private:
     Node *head{nullptr};
     Node *tail{nullptr};
     int size{0};
-    void swap(LinkedList<T> &, LinkedList<T> &);
+    void swap(SinglyLinkedList<T> &, SinglyLinkedList<T> &);
 
 public:
-    LinkedList();
-    LinkedList(std::initializer_list<T>);
-    LinkedList(const LinkedList<T> &);
-    LinkedList(LinkedList<T> &&);
-    LinkedList<T> &operator=(LinkedList<T>);
-    ~LinkedList();
+    SinglyLinkedList();
+    SinglyLinkedList(std::initializer_list<T>);
+    SinglyLinkedList(const SinglyLinkedList<T> &);
+    SinglyLinkedList(SinglyLinkedList<T> &&);
+    SinglyLinkedList<T> &operator=(SinglyLinkedList<T>);
+    ~SinglyLinkedList();
     void print() const;
     unsigned int length() const;
     void append(T);
@@ -40,24 +40,24 @@ public:
 };
 
 // Default Constructor
-template <typename T> LinkedList<T>::LinkedList() {}
+template <typename T> SinglyLinkedList<T>::SinglyLinkedList() {}
 
 // Initialiser List Constructor
-template <typename T> LinkedList<T>::LinkedList(std::initializer_list<T> l) {
+template <typename T> SinglyLinkedList<T>::SinglyLinkedList(std::initializer_list<T> l) {
     for (auto i : l) {
         append(i);
     }
 }
 
 // Copy Constructor
-template <typename T> LinkedList<T>::LinkedList(const LinkedList<T> &source) {
+template <typename T> SinglyLinkedList<T>::SinglyLinkedList(const SinglyLinkedList<T> &source) {
     for (int i{0}; i < source.size; i++) {
         this->append(source[i]);
     }
 }
 
 // Move Constructor
-template <typename T> LinkedList<T>::LinkedList(LinkedList<T> &&source) {
+template <typename T> SinglyLinkedList<T>::SinglyLinkedList(SinglyLinkedList<T> &&source) {
     std::swap(this->size, source.size);
     std::swap(this->head, source.head);
     std::swap(this->tail, source.tail);
@@ -65,29 +65,29 @@ template <typename T> LinkedList<T>::LinkedList(LinkedList<T> &&source) {
 
 // Copy Assignment
 template <typename T>
-LinkedList<T> &LinkedList<T>::operator=(LinkedList<T> source) {
+SinglyLinkedList<T> &SinglyLinkedList<T>::operator=(SinglyLinkedList<T> source) {
     this->swap(*this, source);
     return *this;
 }
 
 template <typename T>
-void LinkedList<T>::swap(LinkedList<T> &a, LinkedList<T> &b) {
+void SinglyLinkedList<T>::swap(SinglyLinkedList<T> &a, SinglyLinkedList<T> &b) {
     std::swap(a.size, b.size);
     std::swap(a.head, b.head);
     std::swap(a.tail, b.tail);
 }
 
-template <typename T> void *LinkedList<T>::Node::operator new(std::size_t) {
-    return malloc(sizeof(LinkedList::Node));
+template <typename T> void *SinglyLinkedList<T>::Node::operator new(std::size_t) {
+    return malloc(sizeof(SinglyLinkedList::Node));
 }
 
 template <typename T>
-void LinkedList<T>::Node::operator delete(void *ptr, std::size_t) {
+void SinglyLinkedList<T>::Node::operator delete(void *ptr, std::size_t) {
     if (ptr)
         free(ptr);
     return;
 }
-template <typename T> void LinkedList<T>::append(T value) {
+template <typename T> void SinglyLinkedList<T>::append(T value) {
     if (!tail) {
         prepend(value);
         return;
@@ -100,7 +100,7 @@ template <typename T> void LinkedList<T>::append(T value) {
     size++;
 }
 
-template <typename T> void LinkedList<T>::prepend(T value) {
+template <typename T> void SinglyLinkedList<T>::prepend(T value) {
     Node *tmp = new Node;
     tmp->next = head;
     tmp->value = value;
@@ -109,7 +109,7 @@ template <typename T> void LinkedList<T>::prepend(T value) {
         tail = tmp;
     size++;
 }
-template <typename T> void LinkedList<T>::insert(int index, T value) {
+template <typename T> void SinglyLinkedList<T>::insert(int index, T value) {
     if (index > size) {
         throw std::out_of_range{"List Index Out of Range"};
         return;
@@ -131,7 +131,7 @@ template <typename T> void LinkedList<T>::insert(int index, T value) {
     newnode->value = value;
     size++;
 }
-template <typename T> T LinkedList<T>::drop(int index) {
+template <typename T> T SinglyLinkedList<T>::drop(int index) {
     if (index >= size) {
         throw std::out_of_range{"List Index Out of Range"};
     }
@@ -159,7 +159,7 @@ template <typename T> T LinkedList<T>::drop(int index) {
     return value;
 }
 
-template <typename T> T &LinkedList<T>::operator[](unsigned int index) const {
+template <typename T> T &SinglyLinkedList<T>::operator[](unsigned int index) const {
     if (index >= size) {
         throw std::out_of_range{"List Index Out of Range"};
     }
@@ -169,11 +169,11 @@ template <typename T> T &LinkedList<T>::operator[](unsigned int index) const {
     return tmp->value;
 }
 
-template <typename T> unsigned int LinkedList<T>::length() const {
+template <typename T> unsigned int SinglyLinkedList<T>::length() const {
     return size;
 }
 
-template <typename T> void LinkedList<T>::print() const {
+template <typename T> void SinglyLinkedList<T>::print() const {
     Node *tmp = head;
     if (tmp) {
         std::cout << tmp->value;
@@ -183,7 +183,7 @@ template <typename T> void LinkedList<T>::print() const {
     }
 }
 
-template <typename T> LinkedList<T>::~LinkedList() {
+template <typename T> SinglyLinkedList<T>::~SinglyLinkedList() {
     for (auto i = head; i;) {
         head = i->next;
         delete i;
@@ -191,4 +191,4 @@ template <typename T> LinkedList<T>::~LinkedList() {
     }
 }
 
-#endif // LINKED_LIST_H
+#endif // SINGLY_LINKED_LIST_H
