@@ -19,9 +19,9 @@ int main() {
     list * l = list_new(LinkedList);
 
     List.append(l, item_new(Integer, 4));
-    List.append(l, item_new(Integer, 5));
-    List.append(l, item_new(Integer, 6));
-    List.append(l, item_new(Integer, 7));
+    List.append(l, item_new(Character, 'a'));
+    List.append(l, item_new(Double, 14.2));
+    List.append(l, item_new(String, "Hello"));
     print_list(l);
 
     return 0;
