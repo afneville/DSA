@@ -30,7 +30,6 @@ public:
     DoublyLinkedList(DoublyLinkedList<T> &&);
     DoublyLinkedList<T> &operator=(DoublyLinkedList<T>);
     ~DoublyLinkedList();
-    void print() const;
     unsigned int length() const;
     void append(T);
     void prepend(T);
@@ -178,16 +177,6 @@ template <typename T> T &DoublyLinkedList<T>::operator[](unsigned int index) con
 
 template <typename T> unsigned int DoublyLinkedList<T>::length() const {
     return size;
-}
-
-template <typename T> void DoublyLinkedList<T>::print() const {
-    Node *tmp = head;
-    if (tmp) {
-        std::cout << tmp->value;
-    }
-    for (auto i = tmp->next; i; i = i->next) {
-        std::cout << ", " << i->value;
-    }
 }
 
 template <typename T> DoublyLinkedList<T>::~DoublyLinkedList() {

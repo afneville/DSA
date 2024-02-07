@@ -30,7 +30,6 @@ public:
     SinglyLinkedList(SinglyLinkedList<T> &&);
     SinglyLinkedList<T> &operator=(SinglyLinkedList<T>);
     ~SinglyLinkedList();
-    void print() const;
     unsigned int length() const;
     void append(T);
     void prepend(T);
@@ -171,16 +170,6 @@ template <typename T> T &SinglyLinkedList<T>::operator[](unsigned int index) con
 
 template <typename T> unsigned int SinglyLinkedList<T>::length() const {
     return size;
-}
-
-template <typename T> void SinglyLinkedList<T>::print() const {
-    Node *tmp = head;
-    if (tmp) {
-        std::cout << tmp->value;
-    }
-    for (auto i = tmp->next; i; i = i->next) {
-        std::cout << ", " << i->value;
-    }
 }
 
 template <typename T> SinglyLinkedList<T>::~SinglyLinkedList() {

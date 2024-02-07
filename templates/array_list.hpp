@@ -1,8 +1,6 @@
 #include "list.hpp"
 #include <cstring>
 #include <initializer_list>
-#include <iostream>
-#include <ostream>
 #include <stdexcept>
 #include <type_traits>
 
@@ -79,15 +77,6 @@ ArrayList<T> &ArrayList<T>::operator=(ArrayList<T> source) {
 template <typename T> ArrayList<T>::~ArrayList() {
     if (array)
         std::free(array);
-};
-
-template <typename T> void ArrayList<T>::print() const {
-    if (size >= 1) {
-        std::cout << array[0];
-    }
-    for (int i{1}; i < size; i++) {
-        std::cout << ", " << array[i];
-    }
 };
 
 template <typename T> unsigned int ArrayList<T>::length() const {
