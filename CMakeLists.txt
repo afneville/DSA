@@ -14,12 +14,11 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(googletest)
 
-add_executable(
-    list_test
-    ./tests/list_test.cpp
-)
-
-foreach(test list_test)
+foreach(test list_test stl_list_test)
+    add_executable(
+        "${test}"
+        "./tests/${test}.cpp"
+    )
     target_link_libraries("${test}" GTest::gtest_main)
 endforeach()
 
