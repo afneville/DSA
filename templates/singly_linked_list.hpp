@@ -1,7 +1,5 @@
 #include "list.hpp"
 #include <initializer_list>
-#include <iostream>
-#include <ostream>
 #include <stdexcept>
 #include <type_traits>
 
@@ -36,6 +34,31 @@ public:
     void insert(int, T) override;
     T drop(int, bool = 1) override;
     T &operator[](unsigned int) const override;
+
+    template<typename ElementType>
+    struct Iterator
+    {
+        using iterator_category = std::forward_iterator_tag;
+        using difference_type   = std::ptrdiff_t;
+        using value_type        = ElementType;
+        using pointer           = ElementType*;
+        using reference         = ElementType&;
+
+        Iterator(Node * node) : node(node) {}
+
+        reference operator*() const { return node->value; }
+        pointer operator->() { return &node->value; }
+        Iterator& operator++() { node = node->next; return *this; }
+        Iterator operator++(int) { Iterator tmp = *this; ++(*this); return tmp; }
+        friend bool operator== (const Iterator& a, const Iterator& b) { return a.node == b.node; };
+        friend bool operator!= (const Iterator& a, const Iterator& b) { return a.node != b.node; };
+
+    private:
+        Node * node;
+    };
+
+    Iterator<T> begin() { return Iterator<T> {head};}
+    Iterator<T> end() { return Iterator<T> {nullptr};}
 };
 
 // Default Constructor
