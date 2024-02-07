@@ -22,10 +22,11 @@ public:
     // const_reverse_iterator
 
     // Constructors and Destructors
-    Deque();
-    Deque(size_type);
-    Deque(std::initializer_list<T>);
-    ~Deque();
+    // Deque();
+    // Deque(size_type);
+    // Deque(std::initializer_list<T>);
+    // ~Deque();
+    using DoublyLinkedList<value_type>::DoublyLinkedList;
 
     // Element Access
     reference at(size_type);
@@ -46,5 +47,32 @@ public:
     void clear();
     size_type size() const;
 };
+
+template <typename T> T &Deque<T>::at(size_t){};
+
+template <typename T> T &Deque<T>::operator[](size_t){};
+
+template <typename T> const T &Deque<T>::operator[](size_t) const {};
+
+template <typename T> T &Deque<T>::front(){};
+
+template <typename T> T &Deque<T>::back(){};
+
+// Operations
+template <typename T> void Deque<T>::push_back(T){};
+
+template <typename T> void Deque<T>::push_front(T){};
+
+template <typename T> void Deque<T>::pop_back(){};
+
+template <typename T> void Deque<T>::pop_front(){};
+
+template <typename T> void Deque<T>::erase(size_t){};
+
+template <typename T> void Deque<T>::insert(size_t, T){};
+
+// Size and allocation
+template <typename T> void Deque<T>::clear(){};
+template <typename T> size_t Deque<T>::size() const {};
 
 #endif // DEQUE_H

@@ -30,12 +30,12 @@ public:
     SinglyLinkedList(SinglyLinkedList<T> &&);
     SinglyLinkedList<T> &operator=(SinglyLinkedList<T>);
     ~SinglyLinkedList();
-    unsigned int length() const;
-    void append(T);
-    void prepend(T);
-    void insert(int, T);
-    T drop(int);
-    T &operator[](unsigned int) const;
+    unsigned int length() const override;
+    void append(T) override;
+    void prepend(T) override;
+    void insert(int, T) override;
+    T drop(int, bool = 1) override;
+    T &operator[](unsigned int) const override;
 };
 
 // Default Constructor
@@ -130,9 +130,11 @@ template <typename T> void SinglyLinkedList<T>::insert(int index, T value) {
     newnode->value = value;
     size++;
 }
-template <typename T> T SinglyLinkedList<T>::drop(int index) {
-    if (index >= size) {
-        throw std::out_of_range{"List Index Out of Range"};
+template <typename T> T SinglyLinkedList<T>::drop(int index, bool bound_checking) {
+    if (bound_checking) {
+        if (index >= size) {
+            throw std::out_of_range{"List Index Out of Range"};
+        }
     }
     Node *tmp = head;
     T value;

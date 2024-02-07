@@ -30,33 +30,36 @@ public:
     DoublyLinkedList(DoublyLinkedList<T> &&);
     DoublyLinkedList<T> &operator=(DoublyLinkedList<T>);
     ~DoublyLinkedList();
-    unsigned int length() const;
-    void append(T);
-    void prepend(T);
-    void insert(int, T);
-    T drop(int);
-    T &operator[](unsigned int) const;
+    unsigned int length() const override;
+    void append(T) override;
+    void prepend(T) override;
+    void insert(int, T) override;
+    T drop(int, bool = 1) override;
+    T &operator[](unsigned int) const override;
 };
 
 // Default Constructor
 template <typename T> DoublyLinkedList<T>::DoublyLinkedList() {}
 
 // Initialiser List Constructor
-template <typename T> DoublyLinkedList<T>::DoublyLinkedList(std::initializer_list<T> l) {
+template <typename T>
+DoublyLinkedList<T>::DoublyLinkedList(std::initializer_list<T> l) {
     for (auto i : l) {
         append(i);
     }
 }
 
 // Copy Constructor
-template <typename T> DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList<T> &source) {
+template <typename T>
+DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList<T> &source) {
     for (int i{0}; i < source.size; i++) {
         this->append(source[i]);
     }
 }
 
 // Move Constructor
-template <typename T> DoublyLinkedList<T>::DoublyLinkedList(DoublyLinkedList<T> &&source) {
+template <typename T>
+DoublyLinkedList<T>::DoublyLinkedList(DoublyLinkedList<T> &&source) {
     std::swap(this->size, source.size);
     std::swap(this->head, source.head);
     std::swap(this->tail, source.tail);
@@ -64,7 +67,8 @@ template <typename T> DoublyLinkedList<T>::DoublyLinkedList(DoublyLinkedList<T> 
 
 // Copy Assignment
 template <typename T>
-DoublyLinkedList<T> &DoublyLinkedList<T>::operator=(DoublyLinkedList<T> source) {
+DoublyLinkedList<T> &
+DoublyLinkedList<T>::operator=(DoublyLinkedList<T> source) {
     this->swap(*this, source);
     return *this;
 }
@@ -76,7 +80,8 @@ void DoublyLinkedList<T>::swap(DoublyLinkedList<T> &a, DoublyLinkedList<T> &b) {
     std::swap(a.tail, b.tail);
 }
 
-template <typename T> void *DoublyLinkedList<T>::Node::operator new(std::size_t) {
+template <typename T>
+void *DoublyLinkedList<T>::Node::operator new(std::size_t) {
     return malloc(sizeof(DoublyLinkedList::Node));
 }
 
@@ -136,9 +141,11 @@ template <typename T> void DoublyLinkedList<T>::insert(int index, T value) {
     newnode->value = value;
     size++;
 }
-template <typename T> T DoublyLinkedList<T>::drop(int index) {
-    if (index >= size) {
-        throw std::out_of_range{"List Index Out of Range"};
+template <typename T> T DoublyLinkedList<T>::drop(int index, bool bound_check) {
+    if (bound_check) {
+        if (index >= size) {
+            throw std::out_of_range{"List Index Out of Range"};
+        }
     }
     Node *tmp = head;
     T value;
@@ -151,7 +158,7 @@ template <typename T> T DoublyLinkedList<T>::drop(int index) {
     } else {
         for (int i = 0; i < index - 1; i++)
             tmp = tmp->next;
-        Node* old = tmp->next;
+        Node *old = tmp->next;
         value = old->value;
         tmp->next = old->next;
         if (old->next)
@@ -165,7 +172,8 @@ template <typename T> T DoublyLinkedList<T>::drop(int index) {
     return value;
 }
 
-template <typename T> T &DoublyLinkedList<T>::operator[](unsigned int index) const {
+template <typename T>
+T &DoublyLinkedList<T>::operator[](unsigned int index) const {
     if (index >= size) {
         throw std::out_of_range{"List Index Out of Range"};
     }
