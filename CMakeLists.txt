@@ -14,7 +14,7 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(googletest)
 
-foreach(test list_test stl_list_test)
+foreach(test list_test stl_list_test vector_test)
     add_executable(
         "${test}"
         "./tests/${test}.cpp"

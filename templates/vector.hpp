@@ -55,9 +55,9 @@ template <typename T> T &Vector<T>::at(size_t index) {
     //     throw std::out_of_range{"List Index Out of Range"};
     // return this->array[index];
     try {
-        T& value = ArrayList<T>::operator[](index);
+        T &value = ArrayList<T>::operator[](index);
         return value;
-    } catch (std::out_of_range& e) {
+    } catch (std::out_of_range &e) {
         throw std::out_of_range{"List Index Out of Range"};
     }
 };
@@ -77,38 +77,46 @@ template <typename T> T &Vector<T>::back() {
 };
 
 // Operations
-template <typename T> void Vector<T>::push_back(T value){
+template <typename T> void Vector<T>::push_back(T value) {
     this->append(value);
 };
 
-template <typename T> void Vector<T>::push_front(T value){
+template <typename T> void Vector<T>::push_front(T value) {
     this->prepend(value);
 };
 
-template <typename T> void Vector<T>::pop_back(){
+template <typename T> void Vector<T>::pop_back() {
     this->drop(this->size_ - 1, 0);
 };
 
-template <typename T> void Vector<T>::pop_front(){
-    this->drop(0, 0);
-};
+template <typename T> void Vector<T>::pop_front() { this->drop(0, 0); };
 
-template <typename T> void Vector<T>::erase(size_t index){
+template <typename T> void Vector<T>::erase(size_t index) {
     this->drop(index, 0);
 };
 
-template <typename T> void Vector<T>::insert(size_t index, T value){
+template <typename T> void Vector<T>::insert(size_t index, T value) {
     ArrayList<T>::insert(index, value);
 };
 
 // Size and allocation
-template <typename T> void Vector<T>::clear(){
-    this->size_ = 0;
-};
+template <typename T> void Vector<T>::clear() { this->size_ = 0; };
 
 template <typename T> size_t Vector<T>::size() const { return this->size_; };
-template <typename T> void Vector<T>::reserve(size_type){};
-template <typename T> size_t Vector<T>::capacity() const {};
-template <typename T> void Vector<T>::shrink_to_fit(){};
+template <typename T> void Vector<T>::reserve(size_type capacity) {
+    if (capacity > this->allocated) {
+        this->allocated = capacity;
+        this->array = static_cast<T *>(std::realloc(this->array, sizeof(T) * this->allocated));
+    }
+};
+
+template <typename T> size_t Vector<T>::capacity() const {
+    return this->allocated;
+};
+
+template <typename T> void Vector<T>::shrink_to_fit(){
+    this->allocated = this->size_;
+    this->array = static_cast<T *>(std::realloc(this->array, sizeof(T) * this->allocated));
+};
 
 #endif // VECTOR_HPP
