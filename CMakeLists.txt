@@ -4,7 +4,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-
+enable_testing()
 include(FetchContent)
 FetchContent_Declare(
   googletest
@@ -13,6 +13,7 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(googletest)
+include(GoogleTest)
 
 foreach(test list_test stl_list_test vector_test)
     add_executable(
@@ -20,6 +21,7 @@ foreach(test list_test stl_list_test vector_test)
         "./tests/${test}.cpp"
     )
     target_link_libraries("${test}" GTest::gtest_main)
+    gtest_discover_tests("${test}")
 endforeach()
 
 # include(GoogleTest)

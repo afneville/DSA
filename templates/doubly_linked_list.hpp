@@ -91,6 +91,7 @@ void DoublyLinkedList<T>::Node::operator delete(void *ptr, std::size_t) {
         free(ptr);
     return;
 }
+
 template <typename T> void DoublyLinkedList<T>::append(T value) {
     if (!tail) {
         prepend(value);
@@ -117,6 +118,7 @@ template <typename T> void DoublyLinkedList<T>::prepend(T value) {
         tail = tmp;
     size++;
 }
+
 template <typename T> void DoublyLinkedList<T>::insert(int index, T value) {
     if (index > size) {
         throw std::out_of_range{"List Index Out of Range"};
@@ -141,6 +143,7 @@ template <typename T> void DoublyLinkedList<T>::insert(int index, T value) {
     newnode->value = value;
     size++;
 }
+
 template <typename T> T DoublyLinkedList<T>::drop(int index, bool bound_check) {
     if (bound_check) {
         if (index >= size) {
