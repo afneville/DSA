@@ -1,4 +1,4 @@
-#include "../includes/queue.h"
+#include "../inc/queue.h"
 #include <stdlib.h>
 
 queue * new_queue(int size) {

@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../includes/tree.h"
+#include "../inc/tree.h"
 
 tree_node * create_tree_node() {
 

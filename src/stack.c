@@ -1,4 +1,4 @@
-#include "../includes/stack.h"
+#include "../inc/stack.h"
 #include <stdlib.h>
 
 stack * new_stack(int size) {
