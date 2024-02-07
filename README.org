@@ -1,8 +1,0 @@
-#+TITLE: Data Structures & Algorithms
-
-The implementation of some basic data structure concepts for A-level Computer Science. Checkout the "simple" branch for a more complete, but basic, approach to these datastructures. To run the code on a unix system, follow the instructions below.
-
-#+begin_src
-make build
-make run
-#+end_src
