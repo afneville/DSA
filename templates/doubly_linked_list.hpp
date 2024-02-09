@@ -1,6 +1,7 @@
 #include "list.hpp"
 #include <initializer_list>
 #include <iostream>
+#include <iterator>
 #include <ostream>
 #include <stdexcept>
 #include <type_traits>
@@ -17,9 +18,12 @@ private:
         T value;
         void *operator new(std::size_t);
         void operator delete(void *, std::size_t);
+        Node(Node *next = nullptr, Node *prev = nullptr, T value = {})
+            : next(next), prev(prev), value(value){};
     };
     Node *head{nullptr};
     Node *tail{nullptr};
+    Node revbegin{nullptr, nullptr, T{}}; // required for reverser iterator
     int size{0};
     void swap(DoublyLinkedList<T> &, DoublyLinkedList<T> &);
 
@@ -36,6 +40,65 @@ public:
     void insert(int, T) override;
     T drop(int, bool = 1) override;
     T &operator[](unsigned int) const override;
+
+    template <typename ElementType> struct Iterator {
+        using iterator_category = std::bidirectional_iterator_tag;
+        using difference_type = std::ptrdiff_t;
+        using value_type = ElementType;
+        using pointer = ElementType *;
+        using reference = ElementType &;
+
+        Iterator(Node *node) : node(node) {}
+
+        reference operator*() const { return node->value; }
+        pointer operator->() { return &node->value; }
+        Iterator &operator--() {
+            node = node->prev;
+            return *this;
+        }
+        Iterator operator--(int) {
+            Iterator tmp = *this;
+            --(*this);
+            return tmp;
+        }
+        Iterator &operator++() {
+            node = node->next;
+            return *this;
+        }
+        Iterator operator++(int) {
+            Iterator tmp = *this;
+            ++(*this);
+            return tmp;
+        }
+        friend bool operator==(const Iterator &a, const Iterator &b) {
+            return a.node == b.node;
+        };
+        friend bool operator!=(const Iterator &a, const Iterator &b) {
+            return a.node != b.node;
+        };
+
+    private:
+        Node *node;
+    };
+
+    Iterator<T> begin() { return Iterator<T>{head}; }
+    Iterator<T> end() { return Iterator<T>{nullptr}; }
+    Iterator<const T> cbegin() { return Iterator<const T>{head}; }
+    Iterator<const T> cend() { return Iterator<const T>{nullptr}; }
+    std::reverse_iterator<Iterator<T>> rbegin() {
+        revbegin.prev = tail;
+        return std::make_reverse_iterator(Iterator<T>{&revbegin});
+    }
+    std::reverse_iterator<Iterator<T>> rend() {
+        return std::make_reverse_iterator(Iterator<T>{head});
+    }
+    std::reverse_iterator<Iterator<const T>> crbegin() {
+        revbegin.prev = tail;
+        return std::make_reverse_iterator(Iterator<T>{&revbegin});
+    }
+    std::reverse_iterator<Iterator<const T>> crend() {
+        return std::make_reverse_iterator(Iterator<const T>{head});
+    }
 };
 
 // Default Constructor
