@@ -35,51 +35,65 @@ public:
     T drop(int, bool = 1) override;
     T &operator[](unsigned int) const override;
 
-    template<typename ElementType>
-    struct Iterator
-    {
+    template <typename ElementType> struct Iterator {
         using iterator_category = std::forward_iterator_tag;
-        using difference_type   = std::ptrdiff_t;
-        using value_type        = ElementType;
-        using pointer           = ElementType*;
-        using reference         = ElementType&;
+        using difference_type = std::ptrdiff_t;
+        using value_type = ElementType;
+        using pointer = ElementType *;
+        using reference = ElementType &;
 
-        Iterator(Node * node) : node(node) {}
+        Iterator(Node *node) : node(node) {}
 
         reference operator*() const { return node->value; }
         pointer operator->() { return &node->value; }
-        Iterator& operator++() { node = node->next; return *this; }
-        Iterator operator++(int) { Iterator tmp = *this; ++(*this); return tmp; }
-        friend bool operator== (const Iterator& a, const Iterator& b) { return a.node == b.node; };
-        friend bool operator!= (const Iterator& a, const Iterator& b) { return a.node != b.node; };
+        Iterator &operator++() {
+            node = node->next;
+            return *this;
+        }
+        Iterator operator++(int) {
+            Iterator tmp = *this;
+            ++(*this);
+            return tmp;
+        }
+        friend bool operator==(const Iterator &a, const Iterator &b) {
+            return a.node == b.node;
+        };
+        friend bool operator!=(const Iterator &a, const Iterator &b) {
+            return a.node != b.node;
+        };
 
     private:
-        Node * node;
+        Node *node;
     };
 
-    Iterator<T> begin() { return Iterator<T> {head};}
-    Iterator<T> end() { return Iterator<T> {nullptr};}
+    Iterator<T> begin() { return Iterator<T>{head}; }
+    Iterator<T> end() { return Iterator<T>{nullptr}; }
+    Iterator<const T> cbegin() { return Iterator<const T>{head}; }
+    Iterator<const T> cend() { return Iterator<const T>{nullptr}; }
 };
 
 // Default Constructor
 template <typename T> SinglyLinkedList<T>::SinglyLinkedList() {}
 
 // Initialiser List Constructor
-template <typename T> SinglyLinkedList<T>::SinglyLinkedList(std::initializer_list<T> l) {
+template <typename T>
+SinglyLinkedList<T>::SinglyLinkedList(std::initializer_list<T> l) {
     for (auto i : l) {
         append(i);
     }
 }
 
 // Copy Constructor
-template <typename T> SinglyLinkedList<T>::SinglyLinkedList(const SinglyLinkedList<T> &source) {
+template <typename T>
+SinglyLinkedList<T>::SinglyLinkedList(const SinglyLinkedList<T> &source) {
     for (int i{0}; i < source.size; i++) {
         this->append(source[i]);
     }
 }
 
 // Move Constructor
-template <typename T> SinglyLinkedList<T>::SinglyLinkedList(SinglyLinkedList<T> &&source) {
+template <typename T>
+SinglyLinkedList<T>::SinglyLinkedList(SinglyLinkedList<T> &&source) {
     std::swap(this->size, source.size);
     std::swap(this->head, source.head);
     std::swap(this->tail, source.tail);
@@ -87,7 +101,8 @@ template <typename T> SinglyLinkedList<T>::SinglyLinkedList(SinglyLinkedList<T> 
 
 // Copy Assignment
 template <typename T>
-SinglyLinkedList<T> &SinglyLinkedList<T>::operator=(SinglyLinkedList<T> source) {
+SinglyLinkedList<T> &
+SinglyLinkedList<T>::operator=(SinglyLinkedList<T> source) {
     this->swap(*this, source);
     return *this;
 }
@@ -99,7 +114,8 @@ void SinglyLinkedList<T>::swap(SinglyLinkedList<T> &a, SinglyLinkedList<T> &b) {
     std::swap(a.tail, b.tail);
 }
 
-template <typename T> void *SinglyLinkedList<T>::Node::operator new(std::size_t) {
+template <typename T>
+void *SinglyLinkedList<T>::Node::operator new(std::size_t) {
     return malloc(sizeof(SinglyLinkedList::Node));
 }
 
@@ -153,7 +169,8 @@ template <typename T> void SinglyLinkedList<T>::insert(int index, T value) {
     newnode->value = value;
     size++;
 }
-template <typename T> T SinglyLinkedList<T>::drop(int index, bool bound_checking) {
+template <typename T>
+T SinglyLinkedList<T>::drop(int index, bool bound_checking) {
     if (bound_checking) {
         if (index >= size) {
             throw std::out_of_range{"List Index Out of Range"};
@@ -172,7 +189,7 @@ template <typename T> T SinglyLinkedList<T>::drop(int index, bool bound_checking
         for (int i = 0; i < index - 1; i++)
             tmp = tmp->next;
         value = tmp->next->value;
-        Node* old = tmp->next;
+        Node *old = tmp->next;
         tmp->next = old->next;
         delete old;
     }
@@ -183,7 +200,8 @@ template <typename T> T SinglyLinkedList<T>::drop(int index, bool bound_checking
     return value;
 }
 
-template <typename T> T &SinglyLinkedList<T>::operator[](unsigned int index) const {
+template <typename T>
+T &SinglyLinkedList<T>::operator[](unsigned int index) const {
     if (index >= size) {
         throw std::out_of_range{"List Index Out of Range"};
     }
