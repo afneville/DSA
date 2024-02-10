@@ -1,4 +1,5 @@
 #include "list.hpp"
+#include <cstddef>
 #include <initializer_list>
 #include <iostream>
 #include <iterator>
@@ -39,7 +40,8 @@ public:
     void prepend(T) override;
     void insert(int, T) override;
     T drop(int, bool = 1) override;
-    T &operator[](unsigned int) const override;
+    T &operator[](size_t) override;
+    const T &operator[](size_t) const override;
 
     template <typename ElementType> struct Iterator {
         using iterator_category = std::bidirectional_iterator_tag;
@@ -56,23 +58,28 @@ public:
             node = node->prev;
             return *this;
         }
+
         Iterator operator--(int) {
             Iterator tmp = *this;
             --(*this);
             return tmp;
         }
+
         Iterator &operator++() {
             node = node->next;
             return *this;
         }
+
         Iterator operator++(int) {
             Iterator tmp = *this;
             ++(*this);
             return tmp;
         }
+
         friend bool operator==(const Iterator &a, const Iterator &b) {
             return a.node == b.node;
         };
+
         friend bool operator!=(const Iterator &a, const Iterator &b) {
             return a.node != b.node;
         };
@@ -238,8 +245,18 @@ template <typename T> T DoublyLinkedList<T>::drop(int index, bool bound_check) {
     return value;
 }
 
+template <typename T> T &DoublyLinkedList<T>::operator[](size_t index) {
+    if (index >= size) {
+        throw std::out_of_range{"List Index Out of Range"};
+    }
+    Node *tmp = head;
+    for (int i = 0; i < index; i++)
+        tmp = tmp->next;
+    return tmp->value;
+}
+
 template <typename T>
-T &DoublyLinkedList<T>::operator[](unsigned int index) const {
+const T &DoublyLinkedList<T>::operator[](size_t index) const {
     if (index >= size) {
         throw std::out_of_range{"List Index Out of Range"};
     }

@@ -1,6 +1,7 @@
 #ifndef LIST_HPP
 #define LIST_HPP
 
+#include <cstddef>
 template <typename T> class List {
 public:
     virtual unsigned int length() const = 0;
@@ -8,7 +9,8 @@ public:
     virtual void prepend(T) = 0;
     virtual void insert(int, T) = 0;
     virtual T drop(int, bool) = 0;
-    virtual T &operator[](unsigned int) const = 0;
+    virtual T &operator[](size_t) = 0;
+    virtual const T &operator[](size_t) const = 0;
     virtual ~List() = default;
 };
 

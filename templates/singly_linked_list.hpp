@@ -1,4 +1,5 @@
 #include "list.hpp"
+#include <cstddef>
 #include <initializer_list>
 #include <stdexcept>
 #include <type_traits>
@@ -33,7 +34,8 @@ public:
     void prepend(T) override;
     void insert(int, T) override;
     T drop(int, bool = 1) override;
-    T &operator[](unsigned int) const override;
+    T &operator[](size_t) override;
+    const T &operator[](size_t) const override;
 
     template <typename ElementType> struct Iterator {
         using iterator_category = std::forward_iterator_tag;
@@ -200,8 +202,18 @@ T SinglyLinkedList<T>::drop(int index, bool bound_checking) {
     return value;
 }
 
+template <typename T> T &SinglyLinkedList<T>::operator[](size_t index) {
+    if (index >= size) {
+        throw std::out_of_range{"List Index Out of Range"};
+    }
+    Node *tmp = head;
+    for (int i = 0; i < index; i++)
+        tmp = tmp->next;
+    return tmp->value;
+}
+
 template <typename T>
-T &SinglyLinkedList<T>::operator[](unsigned int index) const {
+const T &SinglyLinkedList<T>::operator[](size_t index) const {
     if (index >= size) {
         throw std::out_of_range{"List Index Out of Range"};
     }

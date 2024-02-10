@@ -1,4 +1,5 @@
 #include "list.hpp"
+#include <cstddef>
 #include <cstring>
 #include <initializer_list>
 #include <stdexcept>
@@ -31,7 +32,8 @@ public:
     void prepend(T) override;
     void insert(int, T) override;
     T drop(int, bool = 1) override;
-    T &operator[](unsigned int) const override;
+    T &operator[](size_t) override;
+    const T &operator[](size_t) const override;
 };
 
 template <typename T> ArrayList<T>::ArrayList() {
@@ -121,7 +123,13 @@ void ArrayList<T>::swap(ArrayList<T> &a, ArrayList<T> &b) {
     std::swap(a.array, b.array);
 };
 
-template <typename T> T &ArrayList<T>::operator[](unsigned int index) const {
+template <typename T> T &ArrayList<T>::operator[](size_t index) {
+    if (index >= size_)
+        throw std::out_of_range{"List Index Out of Range"};
+    return array[index];
+};
+
+template <typename T> const T &ArrayList<T>::operator[](size_t index) const {
     if (index >= size_)
         throw std::out_of_range{"List Index Out of Range"};
     return array[index];
