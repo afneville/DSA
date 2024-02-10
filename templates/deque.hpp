@@ -6,26 +6,17 @@
 template <typename T> class Deque : private DoublyLinkedList<T> {
 public:
 
+    using DoublyLinkedList<T>::Node;
     // Types
     using value_type = T;
-    using self_type = Deque<value_type>;
     using reference = value_type &;
     using const_reference = const value_type &;
-    using pointer = value_type *;
-    using const_pointer = const pointer;
-    using size_type = size_t;
     using difference_type = ptrdiff_t;
-    // Iterators
-    // iterator
-    // const_iterator
-    // reverse_iterator
-    // const_reverse_iterator
+    using size_type = size_t;
+    using iterator = typename Deque<value_type>::template Iterator<value_type>;
+    using const_iterator = typename Deque<value_type>::template Iterator<const value_type>;
 
     // Constructors and Destructors
-    // Deque();
-    // Deque(size_type);
-    // Deque(std::initializer_list<T>);
-    // ~Deque();
     using DoublyLinkedList<value_type>::DoublyLinkedList;
 
     // Element Access
@@ -46,33 +37,89 @@ public:
     // Size and Allocation
     void clear();
     size_type size() const;
+
+    // Iterators
+    using DoublyLinkedList<T>::begin;
+    using DoublyLinkedList<T>::end;
+    using DoublyLinkedList<T>::cbegin;
+    using DoublyLinkedList<T>::cend;
+    using DoublyLinkedList<T>::rbegin;
+    using DoublyLinkedList<T>::rend;
+    using DoublyLinkedList<T>::crbegin;
+    using DoublyLinkedList<T>::crend;
 };
 
-template <typename T> T &Deque<T>::at(size_t){};
 
-template <typename T> T &Deque<T>::operator[](size_t){};
+template <typename T> T &Deque<T>::at(size_t index){
+    try {
+        T &value = DoublyLinkedList<T>::operator[](index);
+        return value;
+    } catch (std::out_of_range &e) {
+        throw std::out_of_range{"List Index Out of Range"};
+    }
+};
 
-template <typename T> const T &Deque<T>::operator[](size_t) const {};
+template <typename T> T &Deque<T>::operator[](size_t index){
+    auto tmp = this->head;
+    for (int i = 0; i < index; i++)
+        tmp = tmp->next;
+    return tmp->value;
+};
 
-template <typename T> T &Deque<T>::front(){};
+template <typename T> const T &Deque<T>::operator[](size_t index) const {
+    auto tmp = this->head;
+    for (int i = 0; i < index; i++)
+        tmp = tmp->next;
+    return tmp->value;
+};
 
-template <typename T> T &Deque<T>::back(){};
+template <typename T> T &Deque<T>::front(){
+    return this->head->value;
+};
+
+template <typename T> T &Deque<T>::back(){
+    return this->tail->value;
+};
 
 // Operations
-template <typename T> void Deque<T>::push_back(T){};
+template <typename T> void Deque<T>::push_back(T value){
+    this->append(value);
+};
 
-template <typename T> void Deque<T>::push_front(T){};
+template <typename T> void Deque<T>::push_front(T value){
+    this->prepend(value);
+};
 
-template <typename T> void Deque<T>::pop_back(){};
+template <typename T> void Deque<T>::pop_back(){
+    auto tmp = this->tail;
+    this->tail = tmp->prev;
+    if (this->tail)
+        this->tail->next = nullptr;
+    delete tmp;
+    this->size_--;
+};
 
-template <typename T> void Deque<T>::pop_front(){};
+template <typename T> void Deque<T>::pop_front(){
+    this->drop(0, 0);
+};
 
-template <typename T> void Deque<T>::erase(size_t){};
+template <typename T> void Deque<T>::erase(size_t index){
+    this->drop(index, 0);
+};
 
-template <typename T> void Deque<T>::insert(size_t, T){};
+template <typename T> void Deque<T>::insert(size_t index, T value){
+    this->insert(index, value);
+};
 
 // Size and allocation
-template <typename T> void Deque<T>::clear(){};
-template <typename T> size_t Deque<T>::size() const {};
+template <typename T> void Deque<T>::clear(){
+    int size__ = this->size_;
+    for (auto i = 0; i < size__; i++)
+        this->drop(0, 0);
+};
+
+template <typename T> size_t Deque<T>::size() const {
+    return this->size_;
+};
 
 #endif // DEQUE_H

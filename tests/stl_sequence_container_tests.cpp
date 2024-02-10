@@ -1,4 +1,4 @@
-// #include "../templates/deque.hpp"
+#include "../templates/deque.hpp"
 #include "../templates/vector.hpp"
 #include <gtest/gtest.h>
 #include <iostream>
@@ -13,7 +13,7 @@ public:
 };
 
 // Type Paramaters
-using ListImplementations = ::testing::Types<Vector<int>>;
+using ListImplementations = ::testing::Types<Vector<int>, Deque<int>>;
 TYPED_TEST_SUITE(StandardTemplateList, ListImplementations);
 
 // Tests
@@ -150,7 +150,7 @@ TYPED_TEST(StandardTemplateList, ReverseBeginIterator) {
 }
 
 TYPED_TEST(StandardTemplateList, ReverseEndIterator) {
-    ASSERT_EQ(*(--(this->l3.end())), this->l3.back());
+    ASSERT_EQ(*(--(this->l3.rend())), this->l3.front());
 }
 
 TYPED_TEST(StandardTemplateList, ForwardIterator) {

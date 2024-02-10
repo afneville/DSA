@@ -11,7 +11,7 @@
 #define DOUBLY_LINKED_LIST_H
 
 template <typename T> class DoublyLinkedList : public virtual List<T> {
-private:
+protected:
     class Node {
     public:
         Node *next{nullptr};
@@ -25,7 +25,7 @@ private:
     Node *head{nullptr};
     Node *tail{nullptr};
     Node revbegin{nullptr, nullptr, T{}}; // required for reverser iterator
-    int size{0};
+    int size_{0};
     void swap(DoublyLinkedList<T> &, DoublyLinkedList<T> &);
 
 public:
@@ -44,36 +44,81 @@ public:
     const T &operator[](size_t) const override;
 
     template <typename ElementType> struct Iterator {
-        using iterator_category = std::bidirectional_iterator_tag;
+        using iterator_category = std::random_access_iterator_tag;
         using difference_type = std::ptrdiff_t;
         using value_type = ElementType;
         using pointer = ElementType *;
         using reference = ElementType &;
 
-        Iterator(Node *node) : node(node) {}
+        Iterator(Node *node, Node *tail) : node(node), tail(tail) {}
 
         reference operator*() const { return node->value; }
         pointer operator->() { return &node->value; }
         Iterator &operator--() {
-            node = node->prev;
+            if (!node) {
+                node = tail;
+            } else {
+                node = node->prev;
+            }
             return *this;
         }
 
-        Iterator operator--(int) {
+        Iterator<ElementType> operator--(int) {
             Iterator tmp = *this;
             --(*this);
             return tmp;
         }
 
-        Iterator &operator++() {
+        Iterator<ElementType> &operator++() {
             node = node->next;
             return *this;
         }
 
-        Iterator operator++(int) {
+        Iterator<ElementType> operator++(int) {
             Iterator tmp = *this;
             ++(*this);
             return tmp;
+        }
+
+        Iterator<ElementType> &operator+=(difference_type n) {
+            int i = 0;
+            if(!node) {
+                node = tail;
+                i = 1;
+            }
+            for (i; i < n; i++)
+                node = node->next;
+            return *this;
+        }
+
+        Iterator<ElementType> &operator-=(difference_type n) {
+            int i = 0;
+            if(!node) {
+                node = tail;
+                i = 1;
+            }
+            for (i; i < n; i++)
+                node = node->prev;
+            return *this;
+        }
+
+        Iterator<ElementType> operator+(difference_type n) {
+            Iterator<ElementType> tmp{node, tail};
+            tmp += n;
+            return tmp;
+        }
+
+        Iterator<ElementType> operator-(difference_type n) {
+            Iterator<ElementType> tmp{node, tail};
+            tmp -= n;
+            return tmp;
+        }
+
+        ElementType &operator[](size_t n) {
+            Node * tmp = node;
+            for (auto i = 0; i < n; i++)
+                tmp = tmp->next;
+            return tmp->value;
         }
 
         friend bool operator==(const Iterator &a, const Iterator &b) {
@@ -86,25 +131,33 @@ public:
 
     private:
         Node *node;
+        Node *tail;
     };
 
-    Iterator<T> begin() { return Iterator<T>{head}; }
-    Iterator<T> end() { return Iterator<T>{nullptr}; }
-    Iterator<const T> cbegin() { return Iterator<const T>{head}; }
-    Iterator<const T> cend() { return Iterator<const T>{nullptr}; }
+    Iterator<T> begin() { return Iterator<T>{head, tail}; }
+
+    Iterator<T> end() { return Iterator<T>{nullptr, tail}; }
+
+    Iterator<const T> cbegin() { return Iterator<const T>{head, tail}; }
+
+    Iterator<const T> cend() { return Iterator<const T>{nullptr, tail}; }
+
     std::reverse_iterator<Iterator<T>> rbegin() {
         revbegin.prev = tail;
-        return std::make_reverse_iterator(Iterator<T>{&revbegin});
+        return std::make_reverse_iterator(Iterator<T>{&revbegin, tail});
     }
+
     std::reverse_iterator<Iterator<T>> rend() {
-        return std::make_reverse_iterator(Iterator<T>{head});
+        return std::make_reverse_iterator(Iterator<T>{head, tail});
     }
+
     std::reverse_iterator<Iterator<const T>> crbegin() {
         revbegin.prev = tail;
-        return std::make_reverse_iterator(Iterator<T>{&revbegin});
+        return std::make_reverse_iterator(Iterator<T>{&revbegin, tail});
     }
+
     std::reverse_iterator<Iterator<const T>> crend() {
-        return std::make_reverse_iterator(Iterator<const T>{head});
+        return std::make_reverse_iterator(Iterator<const T>{head, tail});
     }
 };
 
@@ -122,7 +175,7 @@ DoublyLinkedList<T>::DoublyLinkedList(std::initializer_list<T> l) {
 // Copy Constructor
 template <typename T>
 DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList<T> &source) {
-    for (int i{0}; i < source.size; i++) {
+    for (int i{0}; i < source.size_; i++) {
         this->append(source[i]);
     }
 }
@@ -130,7 +183,7 @@ DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList<T> &source) {
 // Move Constructor
 template <typename T>
 DoublyLinkedList<T>::DoublyLinkedList(DoublyLinkedList<T> &&source) {
-    std::swap(this->size, source.size);
+    std::swap(this->size_, source.size_);
     std::swap(this->head, source.head);
     std::swap(this->tail, source.tail);
 }
@@ -145,7 +198,7 @@ DoublyLinkedList<T>::operator=(DoublyLinkedList<T> source) {
 
 template <typename T>
 void DoublyLinkedList<T>::swap(DoublyLinkedList<T> &a, DoublyLinkedList<T> &b) {
-    std::swap(a.size, b.size);
+    std::swap(a.size_, b.size_);
     std::swap(a.head, b.head);
     std::swap(a.tail, b.tail);
 }
@@ -173,7 +226,7 @@ template <typename T> void DoublyLinkedList<T>::append(T value) {
     tmp->prev = tail;
     tail->next = tmp;
     tail = tmp;
-    size++;
+    size_++;
 }
 
 template <typename T> void DoublyLinkedList<T>::prepend(T value) {
@@ -186,11 +239,11 @@ template <typename T> void DoublyLinkedList<T>::prepend(T value) {
     head = tmp;
     if (!tail)
         tail = tmp;
-    size++;
+    size_++;
 }
 
 template <typename T> void DoublyLinkedList<T>::insert(int index, T value) {
-    if (index > size) {
+    if (index > size_) {
         throw std::out_of_range{"List Index Out of Range"};
         return;
     }
@@ -198,7 +251,7 @@ template <typename T> void DoublyLinkedList<T>::insert(int index, T value) {
         prepend(value);
         return;
     }
-    if (index == size) {
+    if (index == size_) {
         append(value);
         return;
     }
@@ -211,12 +264,12 @@ template <typename T> void DoublyLinkedList<T>::insert(int index, T value) {
     std::swap(newnode->next, tmp->next);
     std::swap(newnode->prev, tmp->prev);
     newnode->value = value;
-    size++;
+    size_++;
 }
 
 template <typename T> T DoublyLinkedList<T>::drop(int index, bool bound_check) {
     if (bound_check) {
-        if (index >= size) {
+        if (index >= size_) {
             throw std::out_of_range{"List Index Out of Range"};
         }
     }
@@ -224,8 +277,11 @@ template <typename T> T DoublyLinkedList<T>::drop(int index, bool bound_check) {
     T value;
     if (index == 0) {
         head = head->next;
-        if (head)
+        if (head) {
             head->prev = nullptr;
+        } else {
+            tail = nullptr;
+        }
         value = tmp->value;
         delete tmp;
     } else {
@@ -234,19 +290,19 @@ template <typename T> T DoublyLinkedList<T>::drop(int index, bool bound_check) {
         Node *old = tmp->next;
         value = old->value;
         tmp->next = old->next;
-        if (old->next)
+        if (old->next) {
             old->next->prev = tmp;
+        } else {
+            tail = tmp;
+        }
         delete old;
     }
-    if (index == size - 1) {
-        tail = nullptr;
-    }
-    size--;
+    size_--;
     return value;
 }
 
 template <typename T> T &DoublyLinkedList<T>::operator[](size_t index) {
-    if (index >= size) {
+    if (index >= size_) {
         throw std::out_of_range{"List Index Out of Range"};
     }
     Node *tmp = head;
@@ -257,7 +313,7 @@ template <typename T> T &DoublyLinkedList<T>::operator[](size_t index) {
 
 template <typename T>
 const T &DoublyLinkedList<T>::operator[](size_t index) const {
-    if (index >= size) {
+    if (index >= size_) {
         throw std::out_of_range{"List Index Out of Range"};
     }
     Node *tmp = head;
@@ -267,7 +323,7 @@ const T &DoublyLinkedList<T>::operator[](size_t index) const {
 }
 
 template <typename T> unsigned int DoublyLinkedList<T>::length() const {
-    return size;
+    return size_;
 }
 
 template <typename T> DoublyLinkedList<T>::~DoublyLinkedList() {
