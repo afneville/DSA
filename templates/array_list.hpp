@@ -85,6 +85,26 @@ public:
             return tmp;
         }
 
+        difference_type operator-(Iterator<ElementType> it) {
+            return this->ptr - it.ptr;
+        }
+
+        bool operator<(Iterator<ElementType> it) {
+            return it - (*this) > 0;
+        }
+
+        bool operator>(Iterator<ElementType> it) {
+            return it - (*this) < 0;
+        }
+
+        bool operator>=(Iterator<ElementType> it) {
+            return !((*this) < it);
+        }
+
+        bool operator<=(Iterator<ElementType> it) {
+            return !((*this) > it);
+        }
+
         ElementType &operator[](size_t n) { return ptr[n]; }
 
         friend bool operator==(const Iterator &a, const Iterator &b) {
