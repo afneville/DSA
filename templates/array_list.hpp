@@ -34,6 +34,87 @@ public:
     T drop(int, bool = 1) override;
     T &operator[](size_t) override;
     const T &operator[](size_t) const override;
+
+    template <typename ElementType> class Iterator {
+    public:
+        using iterator_category = std::random_access_iterator_tag;
+        using difference_type = std::ptrdiff_t;
+        using size_type = size_t;
+        using value_type = ElementType;
+        using pointer = ElementType *;
+        using reference = ElementType &;
+
+        Iterator(pointer ptr) : ptr(ptr) {}
+
+        reference operator*() const { return *ptr; }
+        pointer operator->() { return ptr; }
+        Iterator<ElementType> &operator--() {
+            ptr--;
+            return *this;
+        }
+        Iterator<ElementType> operator--(int) {
+            Iterator tmp = *this;
+            --(*this);
+            return tmp;
+        }
+        Iterator<ElementType> &operator++() {
+            ptr++;
+            return *this;
+        }
+        Iterator<ElementType> operator++(int) {
+            Iterator tmp = *this;
+            ++(*this);
+            return tmp;
+        }
+        Iterator<ElementType> &operator+=(difference_type n) {
+            ptr += n;
+            return *this;
+        }
+        Iterator<ElementType> &operator-=(difference_type n) {
+            ptr -= n;
+            return *this;
+        }
+        Iterator<ElementType> operator+(difference_type n) {
+            Iterator<ElementType> tmp{ptr};
+            tmp += n;
+            return tmp;
+        }
+        Iterator<ElementType> operator-(difference_type n) {
+            Iterator<ElementType> tmp{ptr};
+            tmp -= n;
+            return tmp;
+        }
+
+        ElementType &operator[](size_t n) { return ptr[n]; }
+
+        friend bool operator==(const Iterator &a, const Iterator &b) {
+            return a.ptr == b.ptr;
+        };
+
+        friend bool operator!=(const Iterator &a, const Iterator &b) {
+            return a.ptr != b.ptr;
+        };
+
+    private:
+        pointer ptr;
+    };
+
+    Iterator<T> begin() { return Iterator<T>{array}; }
+    Iterator<T> end() { return Iterator<T>{array + size_}; }
+    Iterator<const T> cbegin() { return Iterator<const T>{array}; }
+    Iterator<const T> cend() { return Iterator<const T>{array + size_}; }
+    std::reverse_iterator<Iterator<T>> rbegin() {
+        return std::make_reverse_iterator(Iterator<T>{array + size_});
+    }
+    std::reverse_iterator<Iterator<T>> rend() {
+        return std::make_reverse_iterator(Iterator<T>{array});
+    }
+    std::reverse_iterator<Iterator<const T>> crbegin() {
+        return std::make_reverse_iterator(Iterator<T>{array + size_});
+    }
+    std::reverse_iterator<Iterator<const T>> crend() {
+        return std::make_reverse_iterator(Iterator<const T>{array});
+    }
 };
 
 template <typename T> ArrayList<T>::ArrayList() {
