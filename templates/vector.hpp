@@ -8,18 +8,12 @@ template <typename T> class Vector : private ArrayList<T> {
 public:
     // Types
     using value_type = T;
-    using self_type = Vector<value_type>;
     using reference = value_type &;
     using const_reference = const value_type &;
-    using pointer = value_type *;
-    using const_pointer = const pointer;
-    using size_type = size_t;
     using difference_type = ptrdiff_t;
-    // Iterators
-    // iterator
-    // const_iterator
-    // reverse_iterator
-    // const_reverse_iterator
+    using size_type = size_t;
+    using iterator = typename ArrayList<value_type>::template Iterator<value_type>;
+    using const_iterator = typename ArrayList<value_type>::template Iterator<const value_type>;
 
     // Constructors and Destructors
     using ArrayList<value_type>::ArrayList;
