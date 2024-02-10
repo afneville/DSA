@@ -15,14 +15,11 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(googletest)
 include(GoogleTest)
 
-foreach(test list_test stl_list_test vector_test)
+foreach(test_suite list_tests stl_sequence_container_tests vector_tests)
     add_executable(
-        "${test}"
-        "./tests/${test}.cpp"
+        "${test_suite}"
+        "./tests/${test_suite}.cpp"
     )
-    target_link_libraries("${test}" GTest::gtest_main)
-    gtest_discover_tests("${test}")
+    target_link_libraries("${test_suite}" GTest::gtest_main)
+    gtest_discover_tests("${test_suite}")
 endforeach()
-
-# include(GoogleTest)
-# gtest_discover_tests(hello_test)
